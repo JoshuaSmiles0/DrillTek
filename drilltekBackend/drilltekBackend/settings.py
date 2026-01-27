@@ -14,6 +14,7 @@ from pathlib import Path
 from dotenv import load_dotenv
 import os
 
+# Loads .env variables
 load_dotenv()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -78,7 +79,7 @@ PASSWORD = os.getenv('DBPASSWORD')
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
-# Updated DB to reflect development database
+# Updated DB to reflect development database. .env used for password
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
