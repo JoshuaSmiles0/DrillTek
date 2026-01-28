@@ -1,3 +1,18 @@
 from django.db import models
 
-# Create your models here.
+# User model for db
+class Users(models.Model):
+    #User types for enum
+    user_types = (
+        (1,"geologist"),
+        (2,"logger"),
+    )
+    userid = models.AutoField(primary_key=True)
+    email = models.CharField(unique=True, max_length=50)
+    passwordhash = models.CharField(max_length=50)
+    fname = models.CharField(max_length=35)
+    lname = models.CharField(max_length=35)
+    userrole = models.CharField(choices=user_types, default=1)
+
+    def __str__(self):
+        return self.name
