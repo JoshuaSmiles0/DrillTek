@@ -1,13 +1,21 @@
 from django.shortcuts import render
-from rest_framework import generics
+from rest_framework import viewsets
+from rest_framework.decorators import action
+from rest_framework.response import Response
+from rest_framework import status
 from .models import Users
 from .serializers import UserSerializer
 # Create your views here.
 
-# list user api endpoint - will be removed. Is just here as a test
-class UserList(generics.ListAPIView):
-    queryset = Users.objects.all()
-    serializer_class = UserSerializer
+# Replaced with view sets for different tables for reasons of efficiency 
+class UserViewSet(viewsets.ModelViewSet):
+
+    @action(detail=False, methods=["post"])
+
+    def registerUser(self, request):
+        
+
+    
 
 
 
