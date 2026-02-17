@@ -4,5 +4,6 @@ from .views import UserViewSet
 #URL for newly created userlist endpoint
 urlpatterns = [
     path('user/checkUser', UserViewSet.as_view({'post':'checkUser'}), name='checkUser'),
-    path('user/setPassword', UserViewSet.as_view({'patch':'setPassword'}), name='setPassword')
+    path('user/setPassword', UserViewSet.as_view({'patch':'setPassword'}), name='setPassword'),
+    path('user/login', UserViewSet.as_view({'post':'login'}), name='login')
 ]

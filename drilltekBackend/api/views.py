@@ -46,6 +46,21 @@ class UserViewSet(viewsets.ModelViewSet):
                 return Response({"message":"incorrect email, please try again"},status=status.HTTP_400_BAD_REQUEST)
           else:
               return Response({"message":"please enter a valid password"},status=status.HTTP_400_BAD_REQUEST)
+    
+    #Checking details - starting - skeleton login method - must add JWT to this as well
+    @action(detail=False,methods=["post"])
+    def login(self,request):
+        body = request.data
+        userEmail = body["email"]
+        userPassword = body["password"]
+        try:
+            user = Users.objects.get(email = userEmail)
+            if check_password(userPassword,user.passwordhash):
+                return Response({"message":"success!"}, status=status.HTTP_200_OK)
+            else:
+                return Response({"message":"unsuccessful"}, status=status.HTTP_401_UNAUTHORIZED)
+        except:
+            return Response({"message":"something went wrong"}, status=status.HTTP_404_NOT_FOUND)
 
 
 
