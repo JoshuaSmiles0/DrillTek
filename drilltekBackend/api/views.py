@@ -5,6 +5,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from .models import Users
 from .serializers import UserSerializer, UserPasswordSerializer
+from django.contrib.auth.hashers import make_password, check_password
 # Create your views here.
 
 # Replaced with view sets for different tables for reasons of efficiency 
@@ -24,24 +25,27 @@ class UserViewSet(viewsets.ModelViewSet):
     
     @action(detail=False, methods=["patch"])
     # Could probably refactor this later on - very convoluted
-    # Retrieves the user by email - then patches the password originally set
-    # Will need to change this to a hash with some logic, possibly tomorrow - storing hash
-    # Will need to check the hash on login - will need the login next 
+    # Need to look at catching all other errors - all handled
+    # Now hashes password with pbkdf2-sha256 before storage in database so not plaintext
     def setPassword(self, request):
           body = request.data
           userEmail = body["email"]
-          passwordhash = body["passwordhash"]
-          wrappedPassword = {"passwordhash":passwordhash}
-          try:
-              user = Users.objects.get(email = userEmail)
-              serializer=UserPasswordSerializer(user, wrappedPassword, partial=True)
-              if serializer.is_valid():
-                  serializer.save()
-                  return Response(status=status.HTTP_204_NO_CONTENT)
-              else: 
-                  return Response(serializer.errors,status=status.HTTP_404_NOT_FOUND)
-          except:
-              return Response(status=status.HTTP_400_BAD_REQUEST)
+          password = body["password"]
+          if password:
+            hashedPassword = make_password(password=password)
+            wrappedPassword = {"passwordhash":hashedPassword}
+            try:
+                user = Users.objects.get(email = userEmail)
+                serializer=UserPasswordSerializer(user, wrappedPassword, partial=True)
+                if serializer.is_valid():
+                    serializer.save()
+                    return Response({"message":"success"},status=status.HTTP_204_NO_CONTENT)
+                else: 
+                    return Response({"message":"something went wrong, please try again"},serializer.errors,status=status.HTTP_404_NOT_FOUND)
+            except:
+                return Response({"message":"incorrect email, please try again"},status=status.HTTP_400_BAD_REQUEST)
+          else:
+              return Response({"message":"please enter a valid password"},status=status.HTTP_400_BAD_REQUEST)
 
 
 

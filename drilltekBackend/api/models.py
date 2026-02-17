@@ -9,7 +9,8 @@ class Users(models.Model):
     )
     userid = models.AutoField(primary_key=True)
     email = models.CharField(unique=True, max_length=50)
-    passwordhash = models.CharField(max_length=50)
+    #Appropriate length for pbkdf2_sha256 hash default for Django
+    passwordhash = models.CharField(max_length=128)
     fname = models.CharField(max_length=35)
     lname = models.CharField(max_length=35)
     userrole = models.CharField(choices=user_types, default=1)
