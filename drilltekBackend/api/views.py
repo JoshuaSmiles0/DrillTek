@@ -15,6 +15,8 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=["post"])
     # Checks if user exists in the database. To redirect user depending on existance
+    # TO DO - GET THIS TO CHECK THE EXISTANCE OF AN ATTRIBUTE INDICATING IF THE DEFAULT
+    # PASSWORD HAS BEEN RESET - THIS WILL NOT WORK OTHERWISE
     def checkUser(self, request):
         body = request.data
         userEmail = body["email"]
@@ -48,7 +50,9 @@ class UserViewSet(viewsets.ModelViewSet):
           else:
               return Response({"message":"please enter a valid password"},status=status.HTTP_400_BAD_REQUEST)
     
-    #Checking details - starting - skeleton login method - must add JWT to this as well
+    #Attempts to find user and checks password against hash in DB
+    #If unsuccessful, sends appropriate error response
+    #If successful vends Short lived access token and long lived refresh token. 
     @action(detail=False,methods=["post"])
     def login(self,request):
         body = request.data
