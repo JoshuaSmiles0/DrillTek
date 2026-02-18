@@ -6,6 +6,7 @@ from rest_framework import status
 from .models import Users
 from .serializers import UserSerializer, UserPasswordSerializer
 from django.contrib.auth.hashers import make_password, check_password
+from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 # Create your views here.
 
 # Replaced with view sets for different tables for reasons of efficiency 
@@ -56,7 +57,13 @@ class UserViewSet(viewsets.ModelViewSet):
         try:
             user = Users.objects.get(email = userEmail)
             if check_password(userPassword,user.passwordhash):
-                return Response({"message":"success!"}, status=status.HTTP_200_OK)
+                accessToken = AccessToken()
+                accessToken['email']=user.email
+                accessToken['role']=user.userrole
+                refreshToken = RefreshToken()
+                refreshToken['email']=user.email
+                refreshToken['role']=user.userrole
+                return Response({"message":"success!", "access":str(accessToken), "refresh":str(refreshToken)}, status=status.HTTP_200_OK)
             else:
                 return Response({"message":"unsuccessful"}, status=status.HTTP_401_UNAUTHORIZED)
         except:
