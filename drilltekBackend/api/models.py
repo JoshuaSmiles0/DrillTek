@@ -14,6 +14,9 @@ class Users(models.Model):
     fname = models.CharField(max_length=35)
     lname = models.CharField(max_length=35)
     userrole = models.CharField(choices=user_types, default=1)
+    #Added to check if user has initiated first sign in. Will decide if allowed to
+    #Proceed to login or must do first time password change
+    signedUp = models.BooleanField(default=False)
 
     def __str__(self):
         return self.name

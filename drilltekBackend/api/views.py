@@ -15,14 +15,17 @@ class UserViewSet(viewsets.ModelViewSet):
 
     @action(detail=False, methods=["post"])
     # Checks if user exists in the database. To redirect user depending on existance
-    # TO DO - GET THIS TO CHECK THE EXISTANCE OF AN ATTRIBUTE INDICATING IF THE DEFAULT
-    # PASSWORD HAS BEEN RESET - THIS WILL NOT WORK OTHERWISE
+    # Now checks if user signup is true or not indicating if first password change has 
+    # taken place. Sends different success responses depending. 
     def checkUser(self, request):
         body = request.data
         userEmail = body["email"]
         try:
             exists = Users.objects.get(email = userEmail)
-            return Response({"message":"success"}, status=status.HTTP_200_OK)
+            if exists.signedUp:
+                return Response({"message":"Proceed to login"}, status=status.HTTP_200_OK)
+            else:
+                return Response({"message":"Proceed to password change"}, status=status.HTTP_204_NO_CONTENT)
         except:
             return Response({"message":"An Error Has Occured, Please try again"}, status=status.HTTP_404_NOT_FOUND)
     
@@ -30,13 +33,14 @@ class UserViewSet(viewsets.ModelViewSet):
     # Could probably refactor this later on - very convoluted
     # Need to look at catching all other errors - all handled
     # Now hashes password with pbkdf2-sha256 before storage in database so not plaintext
+    # Now sets signedUp to true representing initial password change
     def setPassword(self, request):
           body = request.data
           userEmail = body["email"]
           password = body["password"]
           if password:
             hashedPassword = make_password(password=password)
-            wrappedPassword = {"passwordhash":hashedPassword}
+            wrappedPassword = {"passwordhash":hashedPassword, "signedUp":True}
             try:
                 user = Users.objects.get(email = userEmail)
                 serializer=UserPasswordSerializer(user, wrappedPassword, partial=True)
