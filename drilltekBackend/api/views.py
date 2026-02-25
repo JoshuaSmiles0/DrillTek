@@ -7,7 +7,9 @@ from .models import Users
 from .serializers import UserSerializer, UserPasswordSerializer
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
-# Create your views here.
+
+# Note to developers, axios does not like 204 status codes so these have been
+# Replaced here
 
 # Replaced with view sets for different tables for reasons of efficiency 
 class UserViewSet(viewsets.ModelViewSet):
@@ -25,7 +27,7 @@ class UserViewSet(viewsets.ModelViewSet):
             if exists.signedUp:
                 return Response({"message":"Proceed to login"}, status=status.HTTP_200_OK)
             else:
-                return Response({"message":"Proceed to password change"}, status=status.HTTP_204_NO_CONTENT)
+                return Response({"message":"Proceed to password change"}, status=status.HTTP_200_OK)
         except:
             return Response({"message":"An Error Has Occured, Please try again"}, status=status.HTTP_404_NOT_FOUND)
     
@@ -34,21 +36,26 @@ class UserViewSet(viewsets.ModelViewSet):
     # Need to look at catching all other errors - all handled
     # Now hashes password with pbkdf2-sha256 before storage in database so not plaintext
     # Now sets signedUp to true representing initial password change
+    # Added old password check also before committing password change else unauthorised. 
     def setPassword(self, request):
           body = request.data
           userEmail = body["email"]
           password = body["password"]
+          oldPassword = body["oldPassword"]
           if password:
             hashedPassword = make_password(password=password)
             wrappedPassword = {"passwordhash":hashedPassword, "signedUp":True}
             try:
                 user = Users.objects.get(email = userEmail)
-                serializer=UserPasswordSerializer(user, wrappedPassword, partial=True)
-                if serializer.is_valid():
-                    serializer.save()
-                    return Response({"message":"success"},status=status.HTTP_204_NO_CONTENT)
-                else: 
-                    return Response({"message":"something went wrong, please try again"},serializer.errors,status=status.HTTP_404_NOT_FOUND)
+                if user.passwordhash == oldPassword:
+                  serializer=UserPasswordSerializer(user, wrappedPassword, partial=True)
+                  if serializer.is_valid():
+                      serializer.save()
+                      return Response({"message":"success"},status=status.HTTP_200_OK)
+                  else: 
+                      return Response({"message":"something went wrong, please try again"},serializer.errors,status=status.HTTP_404_NOT_FOUND)
+                else:
+                    return Response({"message":"something went wrong, please try again later"}, status=status.HTTP_401_UNAUTHORIZED)
             except:
                 return Response({"message":"incorrect email, please try again"},status=status.HTTP_400_BAD_REQUEST)
           else:
