@@ -1,10 +1,11 @@
 from django.shortcuts import render
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Users
-from .serializers import UserSerializer, UserPasswordSerializer
+from .models import Users, DrillProgram
+from .serializers import UserSerializer, UserPasswordSerializer, drillProgramSerializer
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 
@@ -75,14 +76,29 @@ class UserViewSet(viewsets.ModelViewSet):
                 accessToken = AccessToken()
                 accessToken['email']=user.email
                 accessToken['role']=user.userrole
+                accessToken['user_id']=user.userid
                 refreshToken = RefreshToken()
                 refreshToken['email']=user.email
                 refreshToken['role']=user.userrole
+                refreshToken['user_id']=user.userid
                 return Response({"message":"success!", "access":str(accessToken), "refresh":str(refreshToken)}, status=status.HTTP_200_OK)
             else:
                 return Response({"message":"unsuccessful"}, status=status.HTTP_401_UNAUTHORIZED)
         except:
             return Response({"message":"something went wrong"}, status=status.HTTP_404_NOT_FOUND)
+
+class DrillProgramViewSet(viewsets.ModelViewSet):
+    permission_classes=[IsAuthenticated]
+
+    # Returns all programs serialized. 
+    @action(detail=False,methods=["get"])
+    def getPrograms(self, request):
+        try:
+            drillPrograms = DrillProgram.objects.all()
+            serializer = drillProgramSerializer(drillPrograms, many=True)
+            return Response({"message":"success", "data":serializer.data}, status=status.HTTP_200_OK)
+        except:
+            return Response({"message":"something went wrong"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 

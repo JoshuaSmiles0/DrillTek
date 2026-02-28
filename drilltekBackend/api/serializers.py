@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Users
+from .models import Users, DrillProgram
 
 # Serializer for user model
 class UserSerializer(serializers.ModelSerializer):
@@ -11,3 +11,8 @@ class UserPasswordSerializer(serializers.ModelSerializer):
     class Meta:
         model = Users
         fields = ['passwordhash','signedUp']
+
+class drillProgramSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DrillProgram
+        fields = ['programid','orebody','location','target','totalholes','totalmeters','userid','dateplanned','dateupdated']
