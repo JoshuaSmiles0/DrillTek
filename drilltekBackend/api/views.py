@@ -8,6 +8,7 @@ from .models import Users, DrillProgram
 from .serializers import UserSerializer, UserPasswordSerializer, drillProgramSerializer
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
+from django.contrib.auth import get_user_model
 
 # Note to developers, axios does not like 204 status codes so these have been
 # Replaced here
@@ -73,14 +74,16 @@ class UserViewSet(viewsets.ModelViewSet):
         try:
             user = Users.objects.get(email = userEmail)
             if check_password(userPassword,user.passwordhash):
-                accessToken = AccessToken()
+                # Gets Django User model to retrieve api service user and register tokens to that user
+                User = get_user_model()
+                u = User.objects.get(username='api-service-user')
+                print(f"{u.username}")
+                accessToken = AccessToken().for_user(u)
                 accessToken['email']=user.email
                 accessToken['role']=user.userrole
-                accessToken['user_id']=user.userid
-                refreshToken = RefreshToken()
+                refreshToken = RefreshToken().for_user(u)
                 refreshToken['email']=user.email
                 refreshToken['role']=user.userrole
-                refreshToken['user_id']=user.userid
                 return Response({"message":"success!", "access":str(accessToken), "refresh":str(refreshToken)}, status=status.HTTP_200_OK)
             else:
                 return Response({"message":"unsuccessful"}, status=status.HTTP_401_UNAUTHORIZED)
