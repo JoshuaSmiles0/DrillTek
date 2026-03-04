@@ -1,12 +1,14 @@
 from django.shortcuts import render
+from rest_framework.permissions import IsAuthenticated
 from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Users
-from .serializers import UserSerializer, UserPasswordSerializer
+from .models import Users, DrillProgram
+from .serializers import UserSerializer, UserPasswordSerializer, drillProgramSerializer
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
+from django.contrib.auth import get_user_model
 
 # Note to developers, axios does not like 204 status codes so these have been
 # Replaced here
@@ -72,10 +74,14 @@ class UserViewSet(viewsets.ModelViewSet):
         try:
             user = Users.objects.get(email = userEmail)
             if check_password(userPassword,user.passwordhash):
-                accessToken = AccessToken()
+                # Gets Django User model to retrieve api service user and register tokens to that user
+                User = get_user_model()
+                u = User.objects.get(username='api-service-user')
+                print(f"{u.username}")
+                accessToken = AccessToken().for_user(u)
                 accessToken['email']=user.email
                 accessToken['role']=user.userrole
-                refreshToken = RefreshToken()
+                refreshToken = RefreshToken().for_user(u)
                 refreshToken['email']=user.email
                 refreshToken['role']=user.userrole
                 return Response({"message":"success!", "access":str(accessToken), "refresh":str(refreshToken)}, status=status.HTTP_200_OK)
@@ -83,6 +89,19 @@ class UserViewSet(viewsets.ModelViewSet):
                 return Response({"message":"unsuccessful"}, status=status.HTTP_401_UNAUTHORIZED)
         except:
             return Response({"message":"something went wrong"}, status=status.HTTP_404_NOT_FOUND)
+
+class DrillProgramViewSet(viewsets.ModelViewSet):
+    permission_classes=[IsAuthenticated]
+
+    # Returns all programs serialized. 
+    @action(detail=False,methods=["get"])
+    def getPrograms(self, request):
+        try:
+            drillPrograms = DrillProgram.objects.all()
+            serializer = drillProgramSerializer(drillPrograms, many=True)
+            return Response({"message":"success", "data":serializer.data}, status=status.HTTP_200_OK)
+        except:
+            return Response({"message":"something went wrong"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
 

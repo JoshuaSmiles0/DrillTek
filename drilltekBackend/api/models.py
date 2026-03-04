@@ -20,3 +20,24 @@ class Users(models.Model):
 
     def __str__(self):
         return self.name
+
+#Drill Program model for db
+class DrillProgram(models.Model):
+    # Primary key specified by user
+    programid = models.CharField(primary_key=True,max_length=30)
+    orebody = models.CharField(max_length=10)
+    location = models.CharField(max_length=10)
+    target = models.CharField(max_length=10)
+    # Designed to be updated as linked drillholes added
+    totalholes = models.IntegerField(default=0)
+    # Designed to be updated with total meterage of holes added to program
+    totalmeters = models.DecimalField(decimal_places=2,default=0.00, max_digits=8)
+    # Links to user created. PK in user never updated, only deleted, should not delete records when deleted
+    userid = models.ForeignKey(Users, on_delete=models.SET_NULL, null=True)
+    # Designed to be added only on creation
+    dateplanned = models.DateField(auto_now_add=True)
+    # Changes when updates are made to program
+    dateupdated = models.DateField(auto_now=True)
+
+    def __str__(self):
+        return self.name
