@@ -115,7 +115,16 @@ class DrillProgramViewSet(viewsets.ModelViewSet):
                 return Response({"message":"Error creating program, please try again"}, status=status.HTTP_400_BAD_REQUEST)
         except:
             return Response({"message":"something went wrong, please try again"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)    
-
+    
+    @action(detail=False, methods=["get"])
+    def getProgramById(self, request):
+        id = request.query_params.get('programid')
+        try: 
+            program = DrillProgram.objects.get(programid = id)
+            serializer = drillProgramSerializer(program)
+            return Response({"message":"program successfully retrieved", "data":serializer.data}, status=status.HTTP_200_OK)
+        except:
+            return Response({"message":"unable to retrieve program"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 
