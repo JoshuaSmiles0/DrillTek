@@ -84,7 +84,7 @@ class UserViewSet(viewsets.ModelViewSet):
                 refreshToken = RefreshToken().for_user(u)
                 refreshToken['email']=user.email
                 refreshToken['role']=user.userrole
-                return Response({"message":"success!", "access":str(accessToken), "refresh":str(refreshToken)}, status=status.HTTP_200_OK)
+                return Response({"message":"success!", "access":str(accessToken), "refresh":str(refreshToken), "userid": user.userid}, status=status.HTTP_200_OK)
             else:
                 return Response({"message":"unsuccessful"}, status=status.HTTP_401_UNAUTHORIZED)
         except:
