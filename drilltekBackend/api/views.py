@@ -117,9 +117,8 @@ class DrillProgramViewSet(viewsets.ModelViewSet):
             return Response({"message":"something went wrong, please try again"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)    
     
     @action(detail=False, methods=["get"])
-    def getProgramById(self,request):
-        body = request.data
-        id = body["programid"]
+    def getProgramById(self, request):
+        id = request.query_params.get('programid')
         try: 
             program = DrillProgram.objects.get(programid = id)
             serializer = drillProgramSerializer(program)
