@@ -16,3 +16,8 @@ class drillProgramSerializer(serializers.ModelSerializer):
     class Meta:
         model = DrillProgram
         fields = ['programid','orebody','location','target','totalholes','totalmeters','userid','dateplanned','dateupdated']
+
+class editProgramSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = DrillProgram
+        fields = ['programid','orebody','location','target']
