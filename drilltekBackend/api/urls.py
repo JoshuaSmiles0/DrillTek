@@ -12,4 +12,5 @@ urlpatterns = [
     path('drillProgram/getPrograms', DrillProgramViewSet.as_view({'get': 'getPrograms'}), name='getPrograms'),
     path('drillProgram/createProgram', DrillProgramViewSet.as_view({'post': 'createProgram'}), name='createProgram'),
     path('drillProgram/getProgramById', DrillProgramViewSet.as_view({'get':'getProgramById'}), name='getProgramById'),
+    path('drillProgram/editProgram', DrillProgramViewSet.as_view({'patch': 'editProgram'}), name='editProgram')
 ]

@@ -125,7 +125,23 @@ class DrillProgramViewSet(viewsets.ModelViewSet):
             return Response({"message":"program successfully retrieved", "data":serializer.data}, status=status.HTTP_200_OK)
         except:
             return Response({"message":"unable to retrieve program"}, status=status.HTTP_400_BAD_REQUEST)
-
+    
+    @action(detail=False, methods=['patch'])
+    def editProgram(self,request):
+        body = request.data
+        id = body['originalid']
+        newDetails = body['program']
+        try:
+            program = DrillProgram.objects.get(programid = id)
+            serializer = drillProgramSerializer(program,newDetails,partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"message":"Program Updated Successfully"}, status=status.HTTP_200_OK)
+            else:
+                return Response({"message":"something went wrong"},status=status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response({"message":"could not carry out request"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
 
 
         
