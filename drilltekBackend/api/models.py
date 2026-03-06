@@ -1,4 +1,5 @@
 from django.db import models
+from django.core.validators import MaxValueValidator, MinValueValidator
 
 # User model for db
 class Users(models.Model):
@@ -41,3 +42,33 @@ class DrillProgram(models.Model):
 
     def __str__(self):
         return self.name
+    
+class Drillhole(models.Model):
+    hole_types = (
+        (1,"Exploration"),
+        (2,"Infill"),
+    )
+    holeid = models.AutoField(primary_key=True)
+    xcoord = models.DecimalField(decimal_places=2, max_digits=8)
+    ycoord = models.DecimalField(decimal_places=2, max_digits=8)
+    zcoord = models.DecimalField(decimal_places=2, max_digits=8)
+    dip = models.DecimalField(decimal_places=2, max_digits=4, 
+                              validators=[
+                                  MinValueValidator(-90.00),
+                                  MaxValueValidator(90.00)
+                              ])
+    azimuth = models.DecimalField(decimal_places=2, max_digits=5,
+                                  validators=[
+                                      MinValueValidator(0.01),
+                                      MaxValueValidator(360.00)
+                                  ])
+    length = models.DecimalField(decimal_places=2, max_digits=8, 
+                                 validators=[
+                                     MinValueValidator(1.00),
+                                     MaxValueValidator(100000.00)
+                                 ])
+    type = models.CharField(choices=hole_types, default=2)
+    programid = models.ForeignKey(DrillProgram,on_delete=models.CASCADE)
+    userid = models.ForeignKey(Users, on_delete=models.SET_NULL, null=True)
+    dateplanned = models.DateField(auto_now_add=True)
+    dateupdated = models.DateField(auto_now=True)

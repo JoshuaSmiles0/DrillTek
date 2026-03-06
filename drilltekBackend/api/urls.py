@@ -1,5 +1,5 @@
 from django.urls import include, path
-from .views import UserViewSet, DrillProgramViewSet
+from .views import DrillholeViewSet, UserViewSet, DrillProgramViewSet
 from rest_framework_simplejwt.views import TokenRefreshView
 
 #URL for newly created userlist endpoint
@@ -12,5 +12,6 @@ urlpatterns = [
     path('drillProgram/getPrograms', DrillProgramViewSet.as_view({'get': 'getPrograms'}), name='getPrograms'),
     path('drillProgram/createProgram', DrillProgramViewSet.as_view({'post': 'createProgram'}), name='createProgram'),
     path('drillProgram/getProgramById', DrillProgramViewSet.as_view({'get':'getProgramById'}), name='getProgramById'),
-    path('drillProgram/editProgram', DrillProgramViewSet.as_view({'patch': 'editProgram'}), name='editProgram')
+    path('drillProgram/editProgram', DrillProgramViewSet.as_view({'patch': 'editProgram'}), name='editProgram'),
+    path('drillhole/addDrillhole', DrillholeViewSet.as_view({'post': 'addDrillhole'}), name='addDrillHole')
 ]
