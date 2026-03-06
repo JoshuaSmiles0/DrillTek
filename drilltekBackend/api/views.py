@@ -5,7 +5,7 @@ from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
 from .models import Users, DrillProgram
-from .serializers import UserSerializer, UserPasswordSerializer, drillProgramSerializer
+from .serializers import UserSerializer, UserPasswordSerializer, drillProgramSerializer, editProgramSerializer
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 from django.contrib.auth import get_user_model
@@ -126,18 +126,18 @@ class DrillProgramViewSet(viewsets.ModelViewSet):
         except:
             return Response({"message":"unable to retrieve program"}, status=status.HTTP_400_BAD_REQUEST)
     
-    @action(detail=False, methods=['patch'])
+    @action(detail=True, methods=['patch'])
     def editProgram(self,request):
         body = request.data
         id = body['originalid']
-        newDetails = body['program']
         try:
             program = DrillProgram.objects.get(programid = id)
-            serializer = drillProgramSerializer(program,newDetails,partial=True)
+            serializer = drillProgramSerializer(program,data=request.data['program'],partial=True)
             if serializer.is_valid():
                 serializer.save()
                 return Response({"message":"Program Updated Successfully"}, status=status.HTTP_200_OK)
             else:
+                print(serializer.errors)
                 return Response({"message":"something went wrong"},status=status.HTTP_400_BAD_REQUEST)
         except:
             return Response({"message":"could not carry out request"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
