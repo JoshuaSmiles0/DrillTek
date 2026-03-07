@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Users, DrillProgram
+from .models import Drillhole, Users, DrillProgram
 
 # Serializer for user model
 class UserSerializer(serializers.ModelSerializer):
@@ -21,3 +21,13 @@ class editProgramSerializer(serializers.ModelSerializer):
     class Meta:
         model = DrillProgram
         fields = ['programid','orebody','location','target']
+
+class addDrillholeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Drillhole
+        fields = ['xcoord','ycoord','zcoord','dip','azimuth','length','type','programid','userid']
+
+class DrillholeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Drillhole
+        fields = ['holeid','xcoord','ycoord','zcoord','dip','azimuth','length','type','programid','userid','dateplanned','dateupdated']        
