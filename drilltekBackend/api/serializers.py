@@ -26,3 +26,8 @@ class addDrillholeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Drillhole
         fields = ['xcoord','ycoord','zcoord','dip','azimuth','length','type','programid','userid']
+
+class DrillholeSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Drillhole
+        fields = ['holeid','xcoord','ycoord','zcoord','dip','azimuth','length','type','programid','userid','dateplanned','dateupdated']        

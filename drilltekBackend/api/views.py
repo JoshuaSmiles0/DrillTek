@@ -4,8 +4,8 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Users, DrillProgram
-from .serializers import UserSerializer, UserPasswordSerializer, addDrillholeSerializer, drillProgramSerializer, editProgramSerializer
+from .models import Users, DrillProgram, Drillhole
+from .serializers import DrillholeSerializer, UserSerializer, UserPasswordSerializer, addDrillholeSerializer, drillProgramSerializer, editProgramSerializer
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 from django.contrib.auth import get_user_model
@@ -157,6 +157,20 @@ class DrillholeViewSet(viewsets.ModelViewSet):
                 return Response({"message":"error creating drillhole"}, status=status.HTTP_400_BAD_REQUEST)
         except:
             return Response({"message":"something went wrong"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+    # Using .filter as looking for many. .get only returns one and fails on many=true
+    @action(detail=False, methods=['get'])
+    def getDrillholesByProgramId(self,request):
+        programId = request.query_params.get('programid')
+        print(programId)
+        try:
+            drillHoles = Drillhole.objects.filter(programid = programId)
+            serializer = DrillholeSerializer(drillHoles, many=True)
+            return Response({"message":"Data retrieved successfully","data":serializer.data}, status=status.HTTP_200_OK)
+        except:
+            return Response({"message":"unable to return data"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+
 
 
         
