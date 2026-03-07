@@ -170,6 +170,30 @@ class DrillholeViewSet(viewsets.ModelViewSet):
         except:
             return Response({"message":"unable to return data"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
+    @action(detail=False, methods=['get'])
+    def getDrillholeById(self,request):
+        holeid = request.query_params.get('holeid')
+        print(holeid)
+        try:
+            drillhole = Drillhole.objects.get(holeid = holeid)
+            serializer = DrillholeSerializer(drillhole)
+            return Response({"message":"drillhole retrieved", "data":serializer.data}, status=status.HTTP_200_OK)
+        except:
+            return Response({"message":"could not retrieve hole"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class ProtectedUserViewset(viewsets.ModelViewSet):
+    permission_classes=[IsAuthenticated]
+
+    @action(detail=False, methods=['get'])
+    def getUserEmailById(self,request):
+        userid = request.query_params.get('userid')
+        print(userid)
+        try:
+            user = Users.objects.get(userid = userid)
+            return Response({"message":"user found successfully", "email":str(user.email)}, status=status.HTTP_200_OK)
+        except:
+            return Response({"message":"issue finding user"}, status=status.HTTP_404_NOT_FOUND)
 
 
 
