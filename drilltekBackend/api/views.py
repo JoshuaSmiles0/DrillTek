@@ -180,6 +180,23 @@ class DrillholeViewSet(viewsets.ModelViewSet):
             return Response({"message":"drillhole retrieved", "data":serializer.data}, status=status.HTTP_200_OK)
         except:
             return Response({"message":"could not retrieve hole"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+    @action(detail=False, methods=['patch'])
+    def editDrillhole(self,request):
+        body = request.data
+        id = body['originalid']
+        try:
+            drillhole = Drillhole.objects.get(holeid = id)
+            serializer = DrillholeSerializer(drillhole,data=request.data['drillhole'],partial=True)
+            if serializer.is_valid():
+                serializer.save()
+                return Response({"message":"Drillhole Updated Successfully"}, status=status.HTTP_200_OK)
+            else:
+                print(serializer.errors)
+                return Response({"message":"something went wrong"},status=status.HTTP_400_BAD_REQUEST)
+        except:
+            return Response({"message":"could not carry out request"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 
 class ProtectedUserViewset(viewsets.ModelViewSet):
