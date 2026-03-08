@@ -16,5 +16,6 @@ urlpatterns = [
     path('drillhole/addDrillhole', DrillholeViewSet.as_view({'post': 'addDrillhole'}), name='addDrillHole'),
     path('drillhole/getDrillholesByProgramId', DrillholeViewSet.as_view({'get':'getDrillholesByProgramId'}), name='getDrillholesByProgramId'),
     path('drillhole/getDrillholeById', DrillholeViewSet.as_view({'get':'getDrillholeById'}), name='getDrillholeById'),
+    path('drillhole/editDrillhole',DrillholeViewSet.as_view({'patch':'editDrillhole'}),name='editDrillhole'),
     path('user/getEmail', ProtectedUserViewset.as_view({'get':'getUserEmailById'}), name='getUserEmailById')
 ]
