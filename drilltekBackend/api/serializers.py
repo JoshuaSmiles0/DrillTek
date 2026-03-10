@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from .models import Drillhole, Users, DrillProgram
+from .models import Drillhole, LithLog, Users, DrillProgram
 
 # Serializer for user model
 class UserSerializer(serializers.ModelSerializer):
@@ -30,4 +30,17 @@ class addDrillholeSerializer(serializers.ModelSerializer):
 class DrillholeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Drillhole
-        fields = ['holeid','xcoord','ycoord','zcoord','dip','azimuth','length','type','programid','userid','dateplanned','dateupdated']        
+        fields = ['holeid','xcoord','ycoord','zcoord','dip','azimuth','length','type','programid','userid','dateplanned','dateupdated']
+
+
+
+class LithlogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LithLog
+        fields = ['index','start','end','lithcode','comment','lithology','holeid','userid','dateLogged']
+
+
+class AddLithlogSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = LithLog
+        fields = ['start','end','lithcode','comment','lithology','holeid','userid']  

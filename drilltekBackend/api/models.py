@@ -100,12 +100,10 @@ class LithLog(models.Model):
     index = models.AutoField(primary_key=True)
     start = models.DecimalField(decimal_places=2, max_digits=8,
                                 validators=[
-                                    MinValueValidator(0.01),
                                     MaxValueValidator(100000.00)
                                 ])
     end = models.DecimalField(decimal_places=2, max_digits=8,
                                 validators=[
-                                    MinValueValidator(0.01),
                                     MaxValueValidator(100000.00)
                                 ])
     lithcode = models.CharField(choices=lithcodes)
