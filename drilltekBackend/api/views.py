@@ -4,8 +4,8 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
-from .models import Users, DrillProgram, Drillhole
-from .serializers import DrillholeSerializer, UserSerializer, UserPasswordSerializer, addDrillholeSerializer, drillProgramSerializer, editProgramSerializer
+from .models import LithLog, Users, DrillProgram, Drillhole
+from .serializers import AddLithlogSerializer, DrillholeSerializer, LithlogSerializer, UserSerializer, UserPasswordSerializer, addDrillholeSerializer, drillProgramSerializer, editProgramSerializer
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 from django.contrib.auth import get_user_model
@@ -211,6 +211,31 @@ class ProtectedUserViewset(viewsets.ModelViewSet):
             return Response({"message":"user found successfully", "email":str(user.email)}, status=status.HTTP_200_OK)
         except:
             return Response({"message":"issue finding user"}, status=status.HTTP_404_NOT_FOUND)
+
+class LithLogViewset(viewsets.ModelViewSet):
+    permission_classes=[IsAuthenticated]
+
+    @action(detail=False, methods=['get'])
+    def getLithlogByHoleid(self, request):
+        holeid = request.query_params.get('holeid')
+        print(holeid)
+        try:
+            log = LithLog.objects.filter(holeid = holeid)
+            serializer = LithlogSerializer(log, many=True)
+            return Response({"message":"Data retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
+        except:
+            return Response({"message":"Unable to retrieve data"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+    @action(detail=False, methods=['post'])
+    def addLithLog(self, request):
+             serializer = AddLithlogSerializer(data=request.data, many=True)
+             if serializer.is_valid():
+                 serializer.save()
+                 return Response({"message":"Lith log added successfully"}, status=status.HTTP_201_CREATED)
+             else:
+                 print(serializer.errors)
+                 return Response({"message": "unable to add lithlog due to data isses"}, status=status.HTTP_400_BAD_REQUEST)
+
 
 
 

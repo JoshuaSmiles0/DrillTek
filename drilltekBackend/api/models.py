@@ -72,3 +72,44 @@ class Drillhole(models.Model):
     userid = models.ForeignKey(Users, on_delete=models.SET_NULL, null=True)
     dateplanned = models.DateField(auto_now_add=True)
     dateupdated = models.DateField(auto_now=True)
+
+class LithLog(models.Model):
+    lithcodes = (
+        ("W_Bm", "waulsortian biomicrite"),
+        ("W_Dol", "Dolomitised Reef"),
+        ("W_WL", "Wavy Laminated Facies"),
+        ("W_LTU", "Lower Transition Unit"),
+        ("W_Lll", "Lower Limestone Lens"),
+        ("ABL_Nm","Nodular Micrite Unit"),
+        ("ABL_En", "ABL Encrinite"),
+        ("ABL", "Undifferentiated ABL"),
+        ("ABL_Uppr", "Upper ABL"),
+        ("ABL_Lwr", "ABL Lower"),
+        ("OOL", "Lisduff oolite undiff"),
+        ("OOL_Uppr", "Upper Lisduff Ool" ),
+        ("OOL_Mid", "Middle Lisduff Ool" ),
+        ("OOL_Lwr", "Lower Lisduff Ool"),
+        ("SLT", "Undifferentiated Siltite"),
+        ("MU", "Undifferenciated Micrite"),
+        ("ARG", "Undifferenciated Argillite"),
+        ("GSTN", "Undifferenciated Grainstone"),
+        ("DOL", "Undifferenciated Dolomite"),
+        ("BDOL", "Undifferenciated Black Dolomite"),
+        ("LST", "Undifferenciated Limestone"),
+    )
+    index = models.AutoField(primary_key=True)
+    start = models.DecimalField(decimal_places=2, max_digits=8,
+                                validators=[
+                                    MaxValueValidator(100000.00)
+                                ])
+    end = models.DecimalField(decimal_places=2, max_digits=8,
+                                validators=[
+                                    MaxValueValidator(100000.00)
+                                ])
+    lithcode = models.CharField(choices=lithcodes)
+    comment = models.CharField(max_length=500)
+    lithology = models.CharField(max_length=35)
+    holeid = models.ForeignKey(Drillhole, on_delete=models.CASCADE)
+    userid = models.ForeignKey(Users, on_delete=models.SET_NULL, null=True)
+    dateLogged = models.DateField(auto_now_add=True)
+                                
