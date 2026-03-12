@@ -207,7 +207,9 @@ class MineralLog(models.Model):
         ("F", "Fracture Filling"),
         ("Rm", "Remobilised"),
         ("S", "Stringer"),
-        ("V", "Veins")
+        ("V", "Veins"),
+        ("T","Trace"),
+        ("B","Barren")
     )
     sampletypes = (
         ("BLANK","Blank"),
