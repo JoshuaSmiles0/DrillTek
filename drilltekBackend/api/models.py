@@ -256,6 +256,8 @@ class MineralLog(models.Model):
     holeid = models.ForeignKey(Drillhole, on_delete=models.CASCADE)
     userid = models.ForeignKey(Users, on_delete=models.SET_NULL, null=True)
     dateLogged = models.DateField(auto_now_add=True)
+    #Used to define if data can be overwritten, if assays already imported. 
+    assaysUploaded = models.BooleanField(default=False)
 
 
 
