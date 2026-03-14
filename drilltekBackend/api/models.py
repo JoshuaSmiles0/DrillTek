@@ -218,7 +218,7 @@ class MineralLog(models.Model):
         ("STD3", "Standard Three"),
         ("SAMPLE", "Core Sample")
     )
-    sampleid = models.AutoField(primary_key=True)
+    sampleid = models.CharField(primary_key=True,max_length=10)
     start = models.DecimalField(decimal_places=2, max_digits=8,
                             validators=[
                                 MaxValueValidator(100000.00)
