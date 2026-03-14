@@ -4,8 +4,8 @@ from rest_framework import viewsets
 from rest_framework.decorators import action
 from rest_framework.response import Response
 from rest_framework import status
-from .models import LithLog, Users, DrillProgram, Drillhole
-from .serializers import AddLithlogSerializer, DrillholeSerializer, LithlogSerializer, UserSerializer, UserPasswordSerializer, addDrillholeSerializer, drillProgramSerializer, editProgramSerializer
+from .models import AlterationLog, LithLog, MineralLog, StructureLog, Users, DrillProgram, Drillhole
+from .serializers import AddAlterationlogSerializer, AddLithlogSerializer, AddMinerallogSerializer, AddStructurelogSerializer, AlterationlogSerializer, DrillholeSerializer, LithlogSerializer, MinerallogSerializer, StructurelogSerializer, UserSerializer, UserPasswordSerializer, addDrillholeSerializer, drillProgramSerializer, editProgramSerializer
 from django.contrib.auth.hashers import make_password, check_password
 from rest_framework_simplejwt.tokens import AccessToken, RefreshToken
 from django.contrib.auth import get_user_model
@@ -235,6 +235,81 @@ class LithLogViewset(viewsets.ModelViewSet):
              else:
                  print(serializer.errors)
                  return Response({"message": "unable to add lithlog due to data isses"}, status=status.HTTP_400_BAD_REQUEST)
+             
+
+class MineralLogViewset(viewsets.ModelViewSet):
+    permission_classes=[IsAuthenticated]
+
+    @action(detail=False, methods=['get'])
+    def getMinerallogByHoleid(self, request):
+        holeid = request.query_params.get('holeid')
+        print(holeid)
+        try:
+            log = MineralLog.objects.filter(holeid = holeid)
+            serializer = MinerallogSerializer(log, many=True)
+            return Response({"message":"Data retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
+        except:
+            return Response({"message":"Unable to retrieve data"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+    @action(detail=False, methods=['post'])
+    def addMineralLog(self, request):
+             serializer = AddMinerallogSerializer(data=request.data, many=True)
+             if serializer.is_valid():
+                 serializer.save()
+                 return Response({"message":"Mineral log added successfully"}, status=status.HTTP_201_CREATED)
+             else:
+                 print(serializer.errors)
+                 return Response({"message": "unable to add Mineral log due to data isses"}, status=status.HTTP_400_BAD_REQUEST)
+             
+
+class AlterationLogViewset(viewsets.ModelViewSet):
+    permission_classes=[IsAuthenticated]
+
+    @action(detail=False, methods=['get'])
+    def getAlterationlogByHoleid(self, request):
+        holeid = request.query_params.get('holeid')
+        print(holeid)
+        try:
+            log = AlterationLog.objects.filter(holeid = holeid)
+            serializer = AlterationlogSerializer(log, many=True)
+            return Response({"message":"Data retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
+        except:
+            return Response({"message":"Unable to retrieve data"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+    @action(detail=False, methods=['post'])
+    def addAlterationLog(self, request):
+             serializer = AddAlterationlogSerializer(data=request.data, many=True)
+             if serializer.is_valid():
+                 serializer.save()
+                 return Response({"message":"Alteration log added successfully"}, status=status.HTTP_201_CREATED)
+             else:
+                 print(serializer.errors)
+                 return Response({"message": "unable to add alteration log due to data isses"}, status=status.HTTP_400_BAD_REQUEST)
+             
+
+class StructureLogViewset(viewsets.ModelViewSet):
+    permission_classes=[IsAuthenticated]
+
+    @action(detail=False, methods=['get'])
+    def getStructurelogByHoleid(self, request):
+        holeid = request.query_params.get('holeid')
+        print(holeid)
+        try:
+            log = StructureLog.objects.filter(holeid = holeid)
+            serializer = StructurelogSerializer(log, many=True)
+            return Response({"message":"Data retrieved successfully", "data": serializer.data}, status=status.HTTP_200_OK)
+        except:
+            return Response({"message":"Unable to retrieve data"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+        
+    @action(detail=False, methods=['post'])
+    def addStructureLog(self, request):
+             serializer = AddStructurelogSerializer(data=request.data, many=True)
+             if serializer.is_valid():
+                 serializer.save()
+                 return Response({"message":"Structure log added successfully"}, status=status.HTTP_201_CREATED)
+             else:
+                 print(serializer.errors)
+                 return Response({"message": "unable to add structure log due to data isses"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 

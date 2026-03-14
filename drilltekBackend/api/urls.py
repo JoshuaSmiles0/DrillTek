@@ -1,5 +1,5 @@
 from django.urls import include, path
-from .views import DrillholeViewSet, LithLogViewset, UserViewSet, DrillProgramViewSet, ProtectedUserViewset
+from .views import DrillholeViewSet, LithLogViewset, UserViewSet, DrillProgramViewSet, ProtectedUserViewset, AlterationLogViewset, MineralLogViewset, StructureLogViewset
 from rest_framework_simplejwt.views import TokenRefreshView
 
 #URL for newly created userlist endpoint
@@ -19,5 +19,11 @@ urlpatterns = [
     path('drillhole/editDrillhole',DrillholeViewSet.as_view({'patch':'editDrillhole'}),name='editDrillhole'),
     path('user/getEmail', ProtectedUserViewset.as_view({'get':'getUserEmailById'}), name='getUserEmailById'),
     path('lithlog/getlithlogbyholeid', LithLogViewset.as_view({'get':'getLithlogByHoleid'}), name='getLithlogByHoleid'),
-    path('lithlog/addLithLog', LithLogViewset.as_view({'post':'addLithLog'}), name='addLithLog')
+    path('lithlog/addLithLog', LithLogViewset.as_view({'post':'addLithLog'}), name='addLithLog'),
+    path('altlog/getAlterationlogByHoleid', AlterationLogViewset.as_view({'get':'getAlterationlogByHoleid'}), name='getAlterationlogByHoleid'),
+    path('altlog/addAlterationLog', AlterationLogViewset.as_view({'post':'addAlterationLog'}), name='addAlterationLog'),
+    path('struclog/getStructurelogByHoleid', StructureLogViewset.as_view({'get':'getStructurelogByHoleid'}), name='getStructurelogByHoleid'),
+    path('struclog/addStructureLog', StructureLogViewset.as_view({'post':'addStructureLog'}), name='addStructureLog'),
+    path('minlog/getMinerallogByHoleid', MineralLogViewset.as_view({'get':'getMinerallogByHoleid'}), name='getMinerallogByHoleid'),
+    path('minlog/addMineralLog', MineralLogViewset.as_view({'post':'addMineralLog'}), name='addMineralLog')
 ]
