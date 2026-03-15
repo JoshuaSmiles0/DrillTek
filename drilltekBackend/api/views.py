@@ -236,6 +236,16 @@ class LithLogViewset(viewsets.ModelViewSet):
                  print(serializer.errors)
                  return Response({"message": "unable to add lithlog due to data isses"}, status=status.HTTP_400_BAD_REQUEST)
              
+    @action(detail=False, methods=['delete'])
+    def deleteLithLog(self, request):
+        body = request.data
+        holeid = body['holeid']
+        try:
+          LithLog.objects.filter(holeid = holeid).delete()
+          return Response({"message":"Items successfully deleted"}, status=status.HTTP_200_OK)
+        except:
+            return Response({"message":"could not delete items"}, status=status.HTTP_400_BAD_REQUEST)         
+             
 
 class MineralLogViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]

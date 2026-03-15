@@ -20,6 +20,7 @@ urlpatterns = [
     path('user/getEmail', ProtectedUserViewset.as_view({'get':'getUserEmailById'}), name='getUserEmailById'),
     path('lithlog/getlithlogbyholeid', LithLogViewset.as_view({'get':'getLithlogByHoleid'}), name='getLithlogByHoleid'),
     path('lithlog/addLithLog', LithLogViewset.as_view({'post':'addLithLog'}), name='addLithLog'),
+    path('lithlog/deleteLithLog', LithLogViewset.as_view({'delete':'deleteLithLog'}), name='deleteLithLog'),
     path('altlog/getAlterationlogByHoleid', AlterationLogViewset.as_view({'get':'getAlterationlogByHoleid'}), name='getAlterationlogByHoleid'),
     path('altlog/addAlterationLog', AlterationLogViewset.as_view({'post':'addAlterationLog'}), name='addAlterationLog'),
     path('struclog/getStructurelogByHoleid', StructureLogViewset.as_view({'get':'getStructurelogByHoleid'}), name='getStructurelogByHoleid'),
