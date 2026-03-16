@@ -238,8 +238,7 @@ class LithLogViewset(viewsets.ModelViewSet):
              
     @action(detail=False, methods=['delete'])
     def deleteLithLog(self, request):
-        body = request.data
-        holeid = body['holeid']
+        holeid = request.query_params.get('holeid')
         try:
           LithLog.objects.filter(holeid = holeid).delete()
           return Response({"message":"Items successfully deleted"}, status=status.HTTP_200_OK)
