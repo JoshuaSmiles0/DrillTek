@@ -348,6 +348,14 @@ class StructureLogViewset(viewsets.ModelViewSet):
             return Response({"message":"could not delete items"}, status=status.HTTP_400_BAD_REQUEST)
 
 
+class TestEndpointViewset(viewsets.ModelViewSet):
+    permission_classes=[IsAuthenticated]
+    
+    @action(detail=False, methods=['get'])
+    def testEndpoint(self,request):
+        return Response({"message":"Endpoint access successful"}, status=status.HTTP_200_OK)
+
+
 
 
         
