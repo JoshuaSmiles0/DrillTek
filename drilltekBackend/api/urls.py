@@ -20,10 +20,14 @@ urlpatterns = [
     path('user/getEmail', ProtectedUserViewset.as_view({'get':'getUserEmailById'}), name='getUserEmailById'),
     path('lithlog/getlithlogbyholeid', LithLogViewset.as_view({'get':'getLithlogByHoleid'}), name='getLithlogByHoleid'),
     path('lithlog/addLithLog', LithLogViewset.as_view({'post':'addLithLog'}), name='addLithLog'),
+    path('lithlog/deleteLithLog', LithLogViewset.as_view({'delete':'deleteLithLog'}), name='deleteLithLog'),
     path('altlog/getAlterationlogByHoleid', AlterationLogViewset.as_view({'get':'getAlterationlogByHoleid'}), name='getAlterationlogByHoleid'),
     path('altlog/addAlterationLog', AlterationLogViewset.as_view({'post':'addAlterationLog'}), name='addAlterationLog'),
+    path('altlog/deleteAlterationLog', AlterationLogViewset.as_view({'delete':'deleteAlterationLog'}), name='deleteAlterationLog'),
     path('struclog/getStructurelogByHoleid', StructureLogViewset.as_view({'get':'getStructurelogByHoleid'}), name='getStructurelogByHoleid'),
     path('struclog/addStructureLog', StructureLogViewset.as_view({'post':'addStructureLog'}), name='addStructureLog'),
+    path('struclog/deleteStructureLog', StructureLogViewset.as_view({'delete':'deleteStructureLog'}), name='deleteStructureLog'),
     path('minlog/getMinerallogByHoleid', MineralLogViewset.as_view({'get':'getMinerallogByHoleid'}), name='getMinerallogByHoleid'),
-    path('minlog/addMineralLog', MineralLogViewset.as_view({'post':'addMineralLog'}), name='addMineralLog')
+    path('minlog/addMineralLog', MineralLogViewset.as_view({'post':'addMineralLog'}), name='addMineralLog'),
+    path('minlog/deleteMineralLog', MineralLogViewset.as_view({'delete':'deleteMineralLog'}), name='deleteMineralLog'),
 ]

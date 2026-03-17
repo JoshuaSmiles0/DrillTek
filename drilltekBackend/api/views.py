@@ -236,6 +236,15 @@ class LithLogViewset(viewsets.ModelViewSet):
                  print(serializer.errors)
                  return Response({"message": "unable to add lithlog due to data isses"}, status=status.HTTP_400_BAD_REQUEST)
              
+    @action(detail=False, methods=['delete'])
+    def deleteLithLog(self, request):
+        holeid = request.query_params.get('holeid')
+        try:
+          LithLog.objects.filter(holeid = holeid).delete()
+          return Response({"message":"Items successfully deleted"}, status=status.HTTP_200_OK)
+        except:
+            return Response({"message":"could not delete items"}, status=status.HTTP_400_BAD_REQUEST)         
+             
 
 class MineralLogViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
@@ -260,6 +269,15 @@ class MineralLogViewset(viewsets.ModelViewSet):
              else:
                  print(serializer.errors)
                  return Response({"message": "unable to add Mineral log due to data isses"}, status=status.HTTP_400_BAD_REQUEST)
+             
+    @action(detail=False, methods=['delete'])
+    def deleteMineralLog(self, request):
+        holeid = request.query_params.get('holeid')
+        try:
+          MineralLog.objects.filter(holeid = holeid).delete()
+          return Response({"message":"Items successfully deleted"}, status=status.HTTP_200_OK)
+        except:
+            return Response({"message":"could not delete items"}, status=status.HTTP_400_BAD_REQUEST)
              
 
 class AlterationLogViewset(viewsets.ModelViewSet):
@@ -286,6 +304,15 @@ class AlterationLogViewset(viewsets.ModelViewSet):
                  print(serializer.errors)
                  return Response({"message": "unable to add alteration log due to data isses"}, status=status.HTTP_400_BAD_REQUEST)
              
+    @action(detail=False, methods=['delete'])
+    def deleteAlterationLog(self, request):
+        holeid = request.query_params.get('holeid')
+        try:
+          AlterationLog.objects.filter(holeid = holeid).delete()
+          return Response({"message":"Items successfully deleted"}, status=status.HTTP_200_OK)
+        except:
+            return Response({"message":"could not delete items"}, status=status.HTTP_400_BAD_REQUEST)
+             
 
 class StructureLogViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
@@ -310,6 +337,15 @@ class StructureLogViewset(viewsets.ModelViewSet):
              else:
                  print(serializer.errors)
                  return Response({"message": "unable to add structure log due to data isses"}, status=status.HTTP_400_BAD_REQUEST)
+             
+    @action(detail=False, methods=['delete'])
+    def deleteStructureLog(self, request):
+        holeid = request.query_params.get('holeid')
+        try:
+          StructureLog.objects.filter(holeid = holeid).delete()
+          return Response({"message":"Items successfully deleted"}, status=status.HTTP_200_OK)
+        except:
+            return Response({"message":"could not delete items"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 
