@@ -211,6 +211,20 @@ class ProtectedUserViewset(viewsets.ModelViewSet):
             return Response({"message":"user found successfully", "email":str(user.email)}, status=status.HTTP_200_OK)
         except:
             return Response({"message":"issue finding user"}, status=status.HTTP_404_NOT_FOUND)
+        
+    @action(detail=False, methods=['post'])
+    def logout(self, request):
+        body = request.data
+        refreshToken = body['refresh']
+        if refreshToken:
+            token = RefreshToken(refreshToken)
+            if token:
+                token.blacklist()
+                return Response({"message":"Logout successful"}, status=status.HTTP_200_OK )
+            else:
+                return Response({"message":"Unable to logout, please try again"}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({"message":"Unable to logout, please try again"}, status=status.HTTP_400_BAD_REQUEST)
 
 class LithLogViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
