@@ -10,6 +10,7 @@ urlpatterns = [
     # Path for refreshing token using built in JWT tokenrefreshview. Takes a refresh token, returns a new access token
     path('token/refresh', TokenRefreshView.as_view(), name='token_refresh' ),
     path('user/testEndpoint', TestEndpointViewset.as_view({'get':'testEndpoint'}), name="testEndpoint"),
+    path('user/logout', ProtectedUserViewset.as_view({'post':'logout'}), name='logout'),
     path('drillProgram/getPrograms', DrillProgramViewSet.as_view({'get': 'getPrograms'}), name='getPrograms'),
     path('drillProgram/createProgram', DrillProgramViewSet.as_view({'post': 'createProgram'}), name='createProgram'),
     path('drillProgram/getProgramById', DrillProgramViewSet.as_view({'get':'getProgramById'}), name='getProgramById'),
