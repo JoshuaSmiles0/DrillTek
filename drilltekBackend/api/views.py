@@ -44,7 +44,7 @@ class UserViewSet(viewsets.ModelViewSet):
           userEmail = body["email"]
           password = body["password"]
           oldPassword = body["oldPassword"]
-          if password:
+          if len(password) >= 15:
             hashedPassword = make_password(password=password)
             wrappedPassword = {"passwordhash":hashedPassword, "signedUp":True}
             try:
