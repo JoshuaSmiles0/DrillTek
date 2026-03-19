@@ -44,7 +44,8 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework', # Added rest framework to support API
     'api', # Added api app to installed app
-    'rest_framework_simplejwt' #Added SimpleJWT Library for authentication
+    'rest_framework_simplejwt', #Added SimpleJWT Library for authentication
+    'rest_framework_simplejwt.token_blacklist' #Added on top of simpleJWT for blacklisting functions
 ]
 # Enables Authentication strategy for API
 REST_FRAMEWORK = {

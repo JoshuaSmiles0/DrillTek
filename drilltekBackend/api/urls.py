@@ -1,5 +1,5 @@
 from django.urls import include, path
-from .views import DrillholeViewSet, LithLogViewset, UserViewSet, DrillProgramViewSet, ProtectedUserViewset, AlterationLogViewset, MineralLogViewset, StructureLogViewset
+from .views import DrillholeViewSet, LithLogViewset, TestEndpointViewset, UserViewSet, DrillProgramViewSet, ProtectedUserViewset, AlterationLogViewset, MineralLogViewset, StructureLogViewset
 from rest_framework_simplejwt.views import TokenRefreshView
 
 #URL for newly created userlist endpoint
@@ -9,6 +9,8 @@ urlpatterns = [
     path('user/login', UserViewSet.as_view({'post':'login'}), name='login'),
     # Path for refreshing token using built in JWT tokenrefreshview. Takes a refresh token, returns a new access token
     path('token/refresh', TokenRefreshView.as_view(), name='token_refresh' ),
+    path('user/testEndpoint', TestEndpointViewset.as_view({'get':'testEndpoint'}), name="testEndpoint"),
+    path('user/logout', ProtectedUserViewset.as_view({'post':'logout'}), name='logout'),
     path('drillProgram/getPrograms', DrillProgramViewSet.as_view({'get': 'getPrograms'}), name='getPrograms'),
     path('drillProgram/createProgram', DrillProgramViewSet.as_view({'post': 'createProgram'}), name='createProgram'),
     path('drillProgram/getProgramById', DrillProgramViewSet.as_view({'get':'getProgramById'}), name='getProgramById'),

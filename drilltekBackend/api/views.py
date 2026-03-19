@@ -44,7 +44,7 @@ class UserViewSet(viewsets.ModelViewSet):
           userEmail = body["email"]
           password = body["password"]
           oldPassword = body["oldPassword"]
-          if password:
+          if len(password) >= 15:
             hashedPassword = make_password(password=password)
             wrappedPassword = {"passwordhash":hashedPassword, "signedUp":True}
             try:
@@ -211,6 +211,20 @@ class ProtectedUserViewset(viewsets.ModelViewSet):
             return Response({"message":"user found successfully", "email":str(user.email)}, status=status.HTTP_200_OK)
         except:
             return Response({"message":"issue finding user"}, status=status.HTTP_404_NOT_FOUND)
+        
+    @action(detail=False, methods=['post'])
+    def logout(self, request):
+        body = request.data
+        refreshToken = body['refresh']
+        if refreshToken:
+            token = RefreshToken(refreshToken)
+            if token:
+                token.blacklist()
+                return Response({"message":"Logout successful"}, status=status.HTTP_200_OK )
+            else:
+                return Response({"message":"Unable to logout, please try again"}, status=status.HTTP_400_BAD_REQUEST)
+        else:
+            return Response({"message":"Unable to logout, please try again"}, status=status.HTTP_400_BAD_REQUEST)
 
 class LithLogViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
@@ -346,6 +360,14 @@ class StructureLogViewset(viewsets.ModelViewSet):
           return Response({"message":"Items successfully deleted"}, status=status.HTTP_200_OK)
         except:
             return Response({"message":"could not delete items"}, status=status.HTTP_400_BAD_REQUEST)
+
+
+class TestEndpointViewset(viewsets.ModelViewSet):
+    permission_classes=[IsAuthenticated]
+    
+    @action(detail=False, methods=['get'])
+    def testEndpoint(self,request):
+        return Response({"message":"Endpoint access successful"}, status=status.HTTP_200_OK)
 
 
 
