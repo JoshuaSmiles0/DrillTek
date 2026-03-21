@@ -158,6 +158,18 @@ class DrillholeViewSet(viewsets.ModelViewSet):
         except:
             return Response({"message":"something went wrong"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
+    @action(detail=False, methods=['post'])
+    def addMultipleDrillholes(self, request):
+        serializer = addDrillholeSerializer(data=request.data, many=True)
+        if serializer.is_valid():
+            serializer.save()
+            return Response({"message":"Drillholes Uploaded successfully"}, status=status.HTTP_201_CREATED)
+        else:
+            print(serializer.errors)
+            return Response({"message": "unable to upload holes due to data isses"}, status=status.HTTP_400_BAD_REQUEST)
+        
+
+        
     # Using .filter as looking for many. .get only returns one and fails on many=true
     @action(detail=False, methods=['get'])
     def getDrillholesByProgramId(self,request):
