@@ -50,7 +50,7 @@ INSTALLED_APPS = [
 # Enables Authentication strategy for API
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': [
-        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework_simplejwt.authentication.JWTAuthentication', #Simptejwt added as auth strategy
     ],
 }
 
