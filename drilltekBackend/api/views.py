@@ -142,6 +142,16 @@ class DrillProgramViewSet(viewsets.ModelViewSet):
         except:
             return Response({"message":"could not carry out request"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
         
+    @action(detail=False, methods=['delete'])
+    def deleteProgram(self, request):
+        programid = request.query_params.get('programid')
+        try:
+          program = DrillProgram.objects.filter(programid = programid)
+          program.delete()
+          return Response({"message":"program successfully deleted"}, status=status.HTTP_200_OK)
+        except:
+            return Response({"message":"could not delete program"}, status=status.HTTP_400_BAD_REQUEST)    
+        
 class DrillholeViewSet(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
 
@@ -208,7 +218,16 @@ class DrillholeViewSet(viewsets.ModelViewSet):
                 return Response({"message":"something went wrong"},status=status.HTTP_400_BAD_REQUEST)
         except:
             return Response({"message":"could not carry out request"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
-
+    
+    @action(detail=False, methods=['delete'])
+    def deleteDrillhole(self, request):
+        holeid = request.query_params.get('holeid')
+        try:
+          hole = Drillhole.objects.filter(holeid = holeid)
+          hole.delete()
+          return Response({"message":"hole successfully deleted"}, status=status.HTTP_200_OK)
+        except:
+            return Response({"message":"could not delete hole"}, status=status.HTTP_400_BAD_REQUEST)
 
 
 class ProtectedUserViewset(viewsets.ModelViewSet):
