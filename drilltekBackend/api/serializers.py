@@ -1,7 +1,7 @@
 from rest_framework import serializers
 from .models import AlterationLog, Drillhole, LithLog, MineralLog, StructureLog, Users, DrillProgram
 
-# Serializer for user model
+# User viewset serializers
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = Users
@@ -12,6 +12,7 @@ class UserPasswordSerializer(serializers.ModelSerializer):
         model = Users
         fields = ['passwordhash','signedUp']
 
+# Drillprogram viewset serializers
 class drillProgramSerializer(serializers.ModelSerializer):
     class Meta:
         model = DrillProgram
@@ -22,6 +23,7 @@ class editProgramSerializer(serializers.ModelSerializer):
         model = DrillProgram
         fields = ['programid','orebody','location','target']
 
+# Drillhole viewset serializers
 class addDrillholeSerializer(serializers.ModelSerializer):
     class Meta:
         model = Drillhole
@@ -32,6 +34,7 @@ class DrillholeSerializer(serializers.ModelSerializer):
         model = Drillhole
         fields = ['holeid','xcoord','ycoord','zcoord','dip','azimuth','length','type','programid','userid','dateplanned','dateupdated']
 
+# Lithlog viewset serializers
 class LithlogSerializer(serializers.ModelSerializer):
     class Meta:
         model = LithLog
@@ -42,6 +45,7 @@ class AddLithlogSerializer(serializers.ModelSerializer):
         model = LithLog
         fields = ['start','end','lithcode','comment','lithology','holeid','userid']
 
+# Alteration log viewset serializers
 class AlterationlogSerializer(serializers.ModelSerializer):
     class Meta:
         model = AlterationLog
@@ -52,6 +56,7 @@ class AddAlterationlogSerializer(serializers.ModelSerializer):
         model = AlterationLog
         fields = ['start','end','alterationcode','comment','alterationtype','holeid','userid']
 
+# Structurelog viewset serializers
 class StructurelogSerializer(serializers.ModelSerializer):
     class Meta:
         model = StructureLog
@@ -62,6 +67,7 @@ class AddStructurelogSerializer(serializers.ModelSerializer):
         model = StructureLog
         fields = ['start','end','structurecode','comment','structuretype','dip','holeid','userid']
 
+# Minerallog viewset serializers
 class MinerallogSerializer(serializers.ModelSerializer):
     class Meta:
         model = MineralLog

@@ -13,10 +13,8 @@ from django.contrib.auth import get_user_model
 # Note to developers, axios does not like 204 status codes so these have been
 # Replaced here
 
-# Replaced with view sets for different tables for reasons of efficiency 
+#Unprotected user views
 class UserViewSet(viewsets.ModelViewSet):
-   
-
     @action(detail=False, methods=["post"])
     # Checks if user exists in the database. To redirect user depending on existance
     # Now checks if user signup is true or not indicating if first password change has 
@@ -90,9 +88,9 @@ class UserViewSet(viewsets.ModelViewSet):
         except:
             return Response({"message":"something went wrong"}, status=status.HTTP_404_NOT_FOUND)
 
+#Drill program views, protected
 class DrillProgramViewSet(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
-
     # Returns all programs serialized. 
     @action(detail=False,methods=["get"])
     def getPrograms(self, request):
@@ -146,12 +144,13 @@ class DrillProgramViewSet(viewsets.ModelViewSet):
     def deleteProgram(self, request):
         programid = request.query_params.get('programid')
         try:
-          program = DrillProgram.objects.filter(programid = programid)
-          program.delete()
-          return Response({"message":"program successfully deleted"}, status=status.HTTP_200_OK)
+         program = DrillProgram.objects.get(programid=programid)
+         program.delete()
+         return Response({"message":"program successfully deleted"}, status=status.HTTP_200_OK)
         except:
             return Response({"message":"could not delete program"}, status=status.HTTP_400_BAD_REQUEST)    
-        
+
+# Drillhole views protected        
 class DrillholeViewSet(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
 
@@ -177,9 +176,7 @@ class DrillholeViewSet(viewsets.ModelViewSet):
         else:
             print(serializer.errors)
             return Response({"message": "unable to upload holes due to data isses"}, status=status.HTTP_400_BAD_REQUEST)
-        
-
-        
+           
     # Using .filter as looking for many. .get only returns one and fails on many=true
     @action(detail=False, methods=['get'])
     def getDrillholesByProgramId(self,request):
@@ -229,7 +226,7 @@ class DrillholeViewSet(viewsets.ModelViewSet):
         except:
             return Response({"message":"could not delete hole"}, status=status.HTTP_400_BAD_REQUEST)
 
-
+# Protected user views 
 class ProtectedUserViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
 
@@ -257,6 +254,7 @@ class ProtectedUserViewset(viewsets.ModelViewSet):
         else:
             return Response({"message":"Unable to logout, please try again"}, status=status.HTTP_400_BAD_REQUEST)
 
+# Lithology views, Protected
 class LithLogViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
 
@@ -291,6 +289,7 @@ class LithLogViewset(viewsets.ModelViewSet):
             return Response({"message":"could not delete items"}, status=status.HTTP_400_BAD_REQUEST)         
              
 
+#Mineral log views, protected
 class MineralLogViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
 
@@ -325,6 +324,7 @@ class MineralLogViewset(viewsets.ModelViewSet):
             return Response({"message":"could not delete items"}, status=status.HTTP_400_BAD_REQUEST)
              
 
+#Alteration log views, protected
 class AlterationLogViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
 
@@ -358,7 +358,7 @@ class AlterationLogViewset(viewsets.ModelViewSet):
         except:
             return Response({"message":"could not delete items"}, status=status.HTTP_400_BAD_REQUEST)
              
-
+#Structure log views, protected
 class StructureLogViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
 
@@ -392,7 +392,7 @@ class StructureLogViewset(viewsets.ModelViewSet):
         except:
             return Response({"message":"could not delete items"}, status=status.HTTP_400_BAD_REQUEST)
 
-
+# Test endpoint view, standalong view for testing if new access token required
 class TestEndpointViewset(viewsets.ModelViewSet):
     permission_classes=[IsAuthenticated]
     
