@@ -42,7 +42,8 @@ class DrillProgram(models.Model):
 
     def __str__(self):
         return self.name
-    
+
+#Drillhole model for db    
 class Drillhole(models.Model):
     hole_types = (
         (1,"Exploration"),
@@ -73,6 +74,7 @@ class Drillhole(models.Model):
     dateplanned = models.DateField(auto_now_add=True)
     dateupdated = models.DateField(auto_now=True)
 
+#Lithlog model for db
 class LithLog(models.Model):
     lithcodes = (
         ("W_Bm", "waulsortian biomicrite"),
@@ -113,7 +115,7 @@ class LithLog(models.Model):
     userid = models.ForeignKey(Users, on_delete=models.SET_NULL, null=True)
     dateLogged = models.DateField(auto_now_add=True)
 
-
+#AlterationLog model for db
 class AlterationLog(models.Model):
     alterationcodes = (
     ("BMB_I", "Incipient Black Matrix Breccia"),
@@ -151,7 +153,7 @@ class AlterationLog(models.Model):
     userid = models.ForeignKey(Users, on_delete=models.SET_NULL, null=True)
     dateLogged = models.DateField(auto_now_add=True)
 
-
+#Structurelog model for db
 class StructureLog(models.Model):
     structurecodes = (
     ("F1", "Weak Fault"),
@@ -197,6 +199,7 @@ class StructureLog(models.Model):
     userid = models.ForeignKey(Users, on_delete=models.SET_NULL, null=True)
     dateLogged = models.DateField(auto_now_add=True)
 
+#Minerallog model for db
 class MineralLog(models.Model):
     texturechoices = (
         ("D", "Disseminated"),
