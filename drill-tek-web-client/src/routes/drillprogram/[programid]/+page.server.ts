@@ -21,7 +21,6 @@ const { session } = await parent();
       email = await drilltekService.getUserEmailById(session.accessToken,parseInt(id))
     }
     const holes = await drilltekService.getDrillholeByProgramId(session.accessToken, params.programid)
-    console.log(program)
     return {
       program,
       holes,
@@ -49,7 +48,6 @@ const { session } = await parent();
           if(session){
             const form = await request.formData();
             const currentProgram = params.programid as string
-            console.log(currentProgram)
             const program = {
               orebody:form.get("orebody") as string,
               location:form.get("location") as string,
@@ -92,7 +90,6 @@ const { session } = await parent();
           const session = JSON.parse(cookiestr) as Session
           if(session){
             const id = params.programid
-            console.log(id)
             const response = await drilltekService.deleteProgram(session.accessToken, id)
               if(response === 200) {
               redirect(302,"/drillingportal")
@@ -202,9 +199,7 @@ const { session } = await parent();
           const file = formData.get('fileUpload') as File
           if(file){
           const rawCsv = await file.arrayBuffer();
-          console.log(rawCsv)
           const csvText = new TextDecoder().decode(rawCsv);
-          console.log(csvText)
           const d = Papa.parse(csvText, {
             header:true,
             skipEmptyLines:true

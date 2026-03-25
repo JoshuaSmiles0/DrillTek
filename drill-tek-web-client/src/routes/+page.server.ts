@@ -11,7 +11,6 @@ export const actions = {
         const form = await request.formData();
         const email = form.get("email") as string
         const res = await drilltekService.checkUser(email)
-        console.log(res)
         if (res === true) {
            throw redirect(302, `/login/${email}` )
         }

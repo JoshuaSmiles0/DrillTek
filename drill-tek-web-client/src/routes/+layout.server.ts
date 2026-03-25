@@ -15,7 +15,6 @@ export const load: LayoutServerLoad = async ({ cookies, fetch }) => {
   if (cookieStr) {
     try {
       const session = JSON.parse(cookieStr) as Session;
-      console.log(session);
       
       const test = await fetch('http://drilltekbackend:8000/api/user/testEndpoint', {
         headers: { Authorization: `Bearer ${session.accessToken}` }

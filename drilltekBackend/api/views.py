@@ -135,7 +135,6 @@ class DrillProgramViewSet(viewsets.ModelViewSet):
                 serializer.save()
                 return Response({"message":"Program Updated Successfully"}, status=status.HTTP_200_OK)
             else:
-                print(serializer.errors)
                 return Response({"message":"something went wrong"},status=status.HTTP_400_BAD_REQUEST)
         except:
             return Response({"message":"could not carry out request"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -162,7 +161,6 @@ class DrillholeViewSet(viewsets.ModelViewSet):
                 serializer.save()
                 return Response({"message":"drillhole added successfully"},status=status.HTTP_201_CREATED)
             else:
-                print(serializer.errors)
                 return Response({"message":"error creating drillhole"}, status=status.HTTP_400_BAD_REQUEST)
         except:
             return Response({"message":"something went wrong"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -174,14 +172,12 @@ class DrillholeViewSet(viewsets.ModelViewSet):
             serializer.save()
             return Response({"message":"Drillholes Uploaded successfully"}, status=status.HTTP_201_CREATED)
         else:
-            print(serializer.errors)
             return Response({"message": "unable to upload holes due to data isses"}, status=status.HTTP_400_BAD_REQUEST)
            
     # Using .filter as looking for many. .get only returns one and fails on many=true
     @action(detail=False, methods=['get'])
     def getDrillholesByProgramId(self,request):
         programId = request.query_params.get('programid')
-        print(programId)
         try:
             drillHoles = Drillhole.objects.filter(programid = programId)
             serializer = DrillholeSerializer(drillHoles, many=True)
@@ -192,7 +188,6 @@ class DrillholeViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def getDrillholeById(self,request):
         holeid = request.query_params.get('holeid')
-        print(holeid)
         try:
             drillhole = Drillhole.objects.get(holeid = holeid)
             serializer = DrillholeSerializer(drillhole)
@@ -211,7 +206,6 @@ class DrillholeViewSet(viewsets.ModelViewSet):
                 serializer.save()
                 return Response({"message":"Drillhole Updated Successfully"}, status=status.HTTP_200_OK)
             else:
-                print(serializer.errors)
                 return Response({"message":"something went wrong"},status=status.HTTP_400_BAD_REQUEST)
         except:
             return Response({"message":"could not carry out request"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
@@ -233,7 +227,6 @@ class ProtectedUserViewset(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def getUserEmailById(self,request):
         userid = request.query_params.get('userid')
-        print(userid)
         try:
             user = Users.objects.get(userid = userid)
             return Response({"message":"user found successfully", "email":str(user.email)}, status=status.HTTP_200_OK)
@@ -261,7 +254,6 @@ class LithLogViewset(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def getLithlogByHoleid(self, request):
         holeid = request.query_params.get('holeid')
-        print(holeid)
         try:
             log = LithLog.objects.filter(holeid = holeid)
             serializer = LithlogSerializer(log, many=True)
@@ -276,7 +268,6 @@ class LithLogViewset(viewsets.ModelViewSet):
                  serializer.save()
                  return Response({"message":"Lith log added successfully"}, status=status.HTTP_201_CREATED)
              else:
-                 print(serializer.errors)
                  return Response({"message": "unable to add lithlog due to data isses"}, status=status.HTTP_400_BAD_REQUEST)
              
     @action(detail=False, methods=['delete'])
@@ -296,7 +287,6 @@ class MineralLogViewset(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def getMinerallogByHoleid(self, request):
         holeid = request.query_params.get('holeid')
-        print(holeid)
         try:
             log = MineralLog.objects.filter(holeid = holeid)
             serializer = MinerallogSerializer(log, many=True)
@@ -311,7 +301,6 @@ class MineralLogViewset(viewsets.ModelViewSet):
                  serializer.save()
                  return Response({"message":"Mineral log added successfully"}, status=status.HTTP_201_CREATED)
              else:
-                 print(serializer.errors)
                  return Response({"message": "unable to add Mineral log due to data isses"}, status=status.HTTP_400_BAD_REQUEST)
              
     @action(detail=False, methods=['delete'])
@@ -331,7 +320,6 @@ class AlterationLogViewset(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def getAlterationlogByHoleid(self, request):
         holeid = request.query_params.get('holeid')
-        print(holeid)
         try:
             log = AlterationLog.objects.filter(holeid = holeid)
             serializer = AlterationlogSerializer(log, many=True)
@@ -346,7 +334,6 @@ class AlterationLogViewset(viewsets.ModelViewSet):
                  serializer.save()
                  return Response({"message":"Alteration log added successfully"}, status=status.HTTP_201_CREATED)
              else:
-                 print(serializer.errors)
                  return Response({"message": "unable to add alteration log due to data isses"}, status=status.HTTP_400_BAD_REQUEST)
              
     @action(detail=False, methods=['delete'])
@@ -365,7 +352,6 @@ class StructureLogViewset(viewsets.ModelViewSet):
     @action(detail=False, methods=['get'])
     def getStructurelogByHoleid(self, request):
         holeid = request.query_params.get('holeid')
-        print(holeid)
         try:
             log = StructureLog.objects.filter(holeid = holeid)
             serializer = StructurelogSerializer(log, many=True)

@@ -12,7 +12,6 @@ const { session } = await parent();
     try {
     const program = params.programid
     const holes = await drilltekService.getDrillholeByProgramId(session.accessToken, params.programid)
-    console.log(program)
     return {
       program,
       holes,

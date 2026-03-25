@@ -34,7 +34,6 @@ export const drilltekService = {
                 return null
             }
         } catch(error) {
-            console.log(error)
             return null
         }
     },
@@ -71,7 +70,6 @@ export const drilltekService = {
             }
         }
         catch(error) {
-            console.log(error)
             return null
         }
     },
@@ -104,7 +102,6 @@ export const drilltekService = {
         }
     }
         catch (error) {
-            console.log(error)
             return null
         }
 
@@ -128,7 +125,6 @@ export const drilltekService = {
             }
         }
         catch(error){
-            console.log(error)
             return null
         }
 
@@ -149,11 +145,9 @@ export const drilltekService = {
             const response = await axios.get(`${this.baseUrl}user/getEmail`,{
                 params:{userid:id}
             })
-            console.log(response.data.email)
             return(response.data.email)
         }
         catch (error) {
-            console.log(error)
             return ""
         } 
     },
@@ -172,7 +166,6 @@ export const drilltekService = {
             return response.data.data as DrillProgram[]
         }
         catch(error){
-            console.log(error)
             return []
         }
     },
@@ -202,7 +195,6 @@ export const drilltekService = {
              return response.status
         }   
         catch(error: any) {
-            console.log(error)
             if(error.response.status) {
             return error.response.status
             }
@@ -232,7 +224,6 @@ export const drilltekService = {
             return response.data.data as DrillProgram
         }
         catch(error){
-            console.log(error)
             return {}
         }
     },
@@ -261,7 +252,6 @@ export const drilltekService = {
             return response.status
         }     
             catch(error: any) {
-            console.log(error)
             if(error.response.status) {
             return error.response.status
             }
@@ -290,7 +280,6 @@ export const drilltekService = {
              return response.status
         }
         catch(error: any) {
-            console.log(error)
             if(error.response.status) {
             return error.response.status
             }
@@ -318,7 +307,6 @@ export const drilltekService = {
             return response.data.data as Drillhole[]
         }
         catch(error){
-            console.log(error)
             return []
         } 
     },
@@ -349,7 +337,6 @@ export const drilltekService = {
              return response.status
         }
         catch(error: any) {
-            console.log(error)
             if(error.response.status) {
             return error.response.status
             }
@@ -375,7 +362,6 @@ export const drilltekService = {
              return response.status
         }
         catch(error: any) {
-            console.log(error)
             if(error.response.status) {
             return error.response.status
             }
@@ -405,7 +391,6 @@ export const drilltekService = {
             return response.data.data as Drillhole
         }
         catch(error){
-        console.log(error)
         return {}
         }
     },
@@ -438,7 +423,6 @@ export const drilltekService = {
             return response.status
         }
             catch(error: any) {
-            console.log(error)
             if(error.response.status) {
             return error.response.status
             }
@@ -467,7 +451,6 @@ export const drilltekService = {
              return response.status
         }
         catch(error: any) {
-            console.log(error)
             if(error.response.status) {
             return error.response.status
             }
@@ -500,7 +483,6 @@ export const drilltekService = {
             }
         }
         catch(error) {
-            console.log(error)
             return null
         }
     },
@@ -524,7 +506,6 @@ export const drilltekService = {
             return response.status
         }
         catch(error: any) {
-            console.log(error)
             if(error.response.status) {
             return error.response.status
             }
@@ -549,7 +530,6 @@ export const drilltekService = {
             return response.status
         }
         catch(error: any) {
-            console.log(error)
             if(error.response.status) {
             return error.response.status
             }
@@ -582,7 +562,6 @@ export const drilltekService = {
             }
         }
         catch(error) {
-            console.log(error)
             return null
         }
     },
@@ -607,7 +586,6 @@ export const drilltekService = {
         }
          
         catch(error: any) {
-            console.log(error)
             if(error.response.status) {
             return error.response.status
             }
@@ -632,7 +610,6 @@ export const drilltekService = {
             return response.status
         }
         catch(error: any) {
-            console.log(error)
             if(error.response.status) {
             return error.response.status
             }
@@ -665,7 +642,6 @@ export const drilltekService = {
             }
         }
         catch(error) {
-            console.log(error)
             return null
         }
     },
@@ -689,7 +665,6 @@ export const drilltekService = {
             return response.status
         }
         catch(error: any) {
-            console.log(error)
             if(error.response.status) {
             return error.response.status
             }
@@ -714,7 +689,6 @@ export const drilltekService = {
             return response.status
         }
         catch(error: any) {
-            console.log(error)
             if(error.response.status) {
             return error.response.status
             }
@@ -747,7 +721,6 @@ export const drilltekService = {
             }
         }
         catch(error) {
-            console.log(error)
             return null
         }
     },
@@ -771,7 +744,6 @@ export const drilltekService = {
             return response.status
         }
         catch(error: any) {
-            console.log(error)
             if(error.response.status) {
             return error.response.status
             }
@@ -796,7 +768,6 @@ export const drilltekService = {
             return response.status
         }
         catch(error: any) {
-            console.log(error)
             if(error.response.status) {
             return error.response.status
             }

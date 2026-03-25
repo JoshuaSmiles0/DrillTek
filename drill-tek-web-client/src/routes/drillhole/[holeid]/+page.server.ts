@@ -24,7 +24,6 @@ const { session } = await parent();
       const id = drillhole.userid as string
       email = await drilltekService.getUserEmailById(session.accessToken,parseInt(id))
     }
-    console.log(drillhole)
     return {
       drillhole,
       session,
@@ -121,7 +120,6 @@ const { session } = await parent();
             const id = parseInt(params.holeid)
             const form = await request.formData();
             const programid = form.get('deleteDrillhole') as string
-            console.log(id)
             const response = await drilltekService.deleteDrillhole(session.accessToken, id)
               if(response === 200) {
               redirect(302,`/drillprogram/${programid}`)

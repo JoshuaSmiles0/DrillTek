@@ -23,10 +23,6 @@ const { session } = await parent();
     const alterationlog = await drilltekService.getAlterationLog(session.accessToken, holeid)
     const structurelog = await drilltekService.getStructureLog(session.accessToken, holeid)
     const minerallog = await drilltekService.getMineralLog(session.accessToken, holeid)
-    console.log(lithlog)
-    console.log(alterationlog)
-    console.log(structurelog)
-    console.log(minerallog)
     return {
       hole,
       lithlog,

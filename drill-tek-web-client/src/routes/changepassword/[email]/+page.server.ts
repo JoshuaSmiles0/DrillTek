@@ -15,7 +15,6 @@ export const actions = {
     changePassword: async({request, params}) => {
         const form = await request.formData();
         const email =  params.email as string;
-        console.log(email)
         const password = form.get("password") as string;
         const oldPassword = form.get("oldPassword") as string;
         if (email === "" || password === "" || oldPassword === "") {

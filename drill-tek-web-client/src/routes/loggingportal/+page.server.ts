@@ -9,7 +9,6 @@ const { session } = await parent();
   if (session) {
     try {
     const programs = await drilltekService.getPrograms(session.accessToken)
-    console.log(programs)
     return {
       programs,
       session

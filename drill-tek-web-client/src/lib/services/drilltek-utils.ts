@@ -39,7 +39,6 @@ try {
         return null
     }}
     catch(error) {
-        console.log(error)
         return null
     }}
 
