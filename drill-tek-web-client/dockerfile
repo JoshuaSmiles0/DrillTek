@@ -1,0 +1,17 @@
+
+# Builder statement as build required before running application
+FROM node:22-alpine AS builder
+
+WORKDIR /drill-tek-web-client
+
+# Copy package.json to install deps
+COPY package.json .
+
+# Install dependencies 
+RUN npm install
+
+# Copies rest of files
+COPY . .
+
+# Runs development server for purposes of project, still in dev not prod ready
+CMD ["npm", "run", "dev"]

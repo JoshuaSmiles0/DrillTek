@@ -1,0 +1,28 @@
+
+# Base Image for python container
+FROM python:3.13-slim
+
+# Creates working directory for project on container
+WORKDIR /drilltekBackend
+
+# Gets packages and installs them without installing debian 
+# Recommended packages. Build essential package contains 
+# compilers and tools recommended for this kind of image.
+# Bottom rown removes package index files after dependency
+# Download to keep container size small
+RUN apt-get update \
+    && apt-get install -y --no-install-recommends \
+        build-essential \
+    && rm -rf /var/lib/apt/lists/*
+
+# Copies requirements.txt containing all required libraries
+COPY requirements.txt .
+
+# Installs all 
+RUN pip install --no-cache-dir -r requirements.txt
+
+# Copies project to  
+COPY . .
+
+# Command for running Dev server, Not running prod server for project 
+CMD ["python", "manage.py", "runserver", "0.0.0.0:8000"]

@@ -1,0 +1,68 @@
+# Compose version 
+version: "3.9"
+
+# Individual services
+services: 
+
+  drilltekdb:
+            image: postgres:14-alpine #Postgres 14 - nearing end of life, could upgrade
+            environment:
+              POSTGRES_USER: ${DB_USER} #Database user for application
+              POSTGRES_PASSWORD: ${DBPASSWORD} #Password for application
+              POSTGRES_DB: ${DB_NAME} #Database name
+            ports:
+              - "5432:5432" #Default port
+            volumes:
+              - postgres_data:/var/lib/postgresql/data #Mapping for DB volume for storage
+            healthcheck: # Check if DB has spun up
+              test: ["CMD-SHELL", "pg_isready -U ${DB_USER} -d ${DB_NAME}"] 
+              interval: 5s
+              timeout: 5s
+              retries: 5
+
+  #Migration stage to execute migrations in backend app before running
+  migrate: 
+         build: ./drilltekBackend
+         command: python manage.py migrate --noinput #Migrate command
+         environment:
+            DBPASSWORD: ${DBPASSWORD} #Rel DB password
+            DB_NAME: ${DB_NAME} #Rel DB Name
+            DB_USER: ${DB_USER} #Rel DB User
+            DB_HOST: ${DB_HOST} #Rel DB host
+            DB_PORT: ${DB_PORT} #Rel DB port
+            DJANGO_SETTINGS_MODULE: drilltekBackend.settings #mapping to app settings file
+         depends_on:
+             drilltekdb:
+                 condition: service_healthy #Does not execute until DB running
+                 
+  #Backend application
+  drilltekbackend:
+            build: ./drilltekBackend
+            depends_on:
+              migrate:
+                condition: service_completed_successfully #Only executes if migrations completed
+            ports:
+              - "8000:8000"
+            environment:
+              DBPASSWORD: ${DBPASSWORD} #Rel db password
+              SECRET_KEY: ${SECRET_KEY} #Secret key for auth
+              DB_NAME: ${DB_NAME} #Rel db name
+              DB_USER: ${DB_USER} #Rel db user
+              DB_HOST: ${DB_HOST} #Rel db host
+              DB_PORT: ${DB_PORT} #Rel db port
+              DJANGO_SETTINGS_MODULE: drilltekBackend.settings #Mapping to app settings file
+
+  #Frontend app            
+  drilltekfrontend:
+            build: ./drill-tek-web-client
+            ports:
+              - "5173:5173"
+            depends_on:
+              drilltekbackend:
+                   condition: service_started #Dependent on backend starting
+            environment:
+              BASE_API_URL: http://drilltekBackend:8000/api/ #Base URL for API calls to backend replacing localhost
+
+# DB volume definition
+volumes:
+  postgres_data:

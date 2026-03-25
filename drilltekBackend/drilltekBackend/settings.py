@@ -10,12 +10,16 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/6.0/ref/settings/
 """
 
+ #Should be in .env. Issue with containerization. To Be Changed for dev
+
+
 from pathlib import Path
 from dotenv import load_dotenv
 import os
 
 # Loads .env variables
-load_dotenv()
+load_dotenv("../.env")
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -24,15 +28,20 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
-SECRET = os.getenv('SECRET_KEY')
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = SECRET
+SECRET_KEY = os.getenv('DB_NAME')
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = [
+    'localhost',
+    '127.0.0.1',
+    'drilltekbackend',     
+    'drilltekbackend:8000', 
+    '*',                    
+]
 
 
 # Application definition
@@ -85,11 +94,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'drilltekBackend.wsgi.application'
 
-PASSWORD = os.getenv('DBPASSWORD')
-NAME = os.getenv('DB_NAME')
-USER = os.getenv('DB_USER')
-HOST = os.getenv('DB_HOST')
-PORT = os.getenv('DB_PORT')
 
 # Database
 # https://docs.djangoproject.com/en/6.0/ref/settings/#databases
@@ -97,11 +101,11 @@ PORT = os.getenv('DB_PORT')
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME' : NAME,
-        'USER' : USER,
-        'PASSWORD' : PASSWORD,
-        'HOST' : HOST,
-        'PORT' : PORT
+        'NAME' : os.getenv('DB_NAME'),
+        'USER' : os.getenv('DB_USER'),
+        'PASSWORD' : os.getenv('DBPASSWORD'),
+        'HOST' : os.getenv('DB_HOST'),
+        'PORT' : os.getenv('DB_PORT')
     }
 }
 
