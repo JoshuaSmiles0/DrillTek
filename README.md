@@ -1,4 +1,4 @@
-# DrillTek - 
+# DrillTek - All Things Diamond Drilling, All In One Place
 
 ## About This Application
 DrillTek is a web based solution for managing and logging boreholes in extractive industry. The application is three tier, with the presentation tier being built using Svelte and Bulma CSS, the application tier Api using Django rest framework and the Data tier comprising a Postgresql database. Users can create borehole programs comprised of individual boreholes and upload geological logging information associated with them. This application was constructed using fully open source tools due to similar industrial applications carrying a large license fee.
