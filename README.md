@@ -53,11 +53,12 @@ On initial login, password change will be prompted before login. Be aware that p
 At present , users will have access to an area for managing boreholes called 'drilling portal' and an area for logging drillholes called 'logging portal'.
 On login these will be present from the main portal.
 
-![Main Portal](images/main_portal.png)
+![Main Portal](images/main_portal2.png)
 
 ### Drilling portal
 #### Drill Programs
-IMAGE - DRILLING PORTAL
+
+![Drilling Portal](images/drilling_portal.png)
 
 On entering the drilling portal, a blank page will be encountered due to no drill programs yet added. Programs can be added using the 'Add button' and populating the 
 subsequent form. 
