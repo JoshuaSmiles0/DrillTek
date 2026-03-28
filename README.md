@@ -1,4 +1,4 @@
-# DrillTek - 
+# DrillTek - All Things Diamond Drilling, All In One Place
 
 ## About This Application
 DrillTek is a web based solution for managing and logging boreholes in extractive industry. The application is three tier, with the presentation tier being built using Svelte and Bulma CSS, the application tier Api using Django rest framework and the Data tier comprising a Postgresql database. Users can create borehole programs comprised of individual boreholes and upload geological logging information associated with them. This application was constructed using fully open source tools due to similar industrial applications carrying a large license fee.
@@ -53,7 +53,7 @@ On initial login, password change will be prompted before login. Be aware that p
 At present , users will have access to an area for managing boreholes called 'drilling portal' and an area for logging drillholes called 'logging portal'.
 On login these will be present from the main portal.
 
-IMAGE - MAIN PORTAL 
+![Main Portal](images/main_portal.png)
 
 ### Drilling portal
 #### Drill Programs
@@ -62,7 +62,7 @@ IMAGE - DRILLING PORTAL
 On entering the drilling portal, a blank page will be encountered due to no drill programs yet added. Programs can be added using the 'Add button' and populating the 
 subsequent form. 
 
-IMAGE - ADD DRILL PROGRAM FORM
+![Add Program](images/add_drillprogram.png)
 
 Be aware that fields have character length constraints as outlined below and in drilltekBackend/api/models.py
 
@@ -76,28 +76,28 @@ Drill programs can be opened to view details and edit by selecting open on the d
 
 #### Drill Program Details
 
-IMAGE - DRILL PROGRAM DETAILS
+![Program Details](images/program_details.png)
 
 Upon opening desired drill program , users have the option to manipulate the existing program or add drillholes. 
 
 Selecting 'Edit' Will present the user with a prepopulated form containing the current details. These can be edited and resubmitted. 
 
-IMAGE - EDIT DRILL PROGRAM FORM
+![Add Program Form](images/add_drillprogram.png)
 
 Selecting 'Delete' Will prompt the user to make sure they want to delete the program. **Please be aware that by deleting a program this will cascade and delete
 associated drillholes and also any logs associated with said holes**. 
 
-IMAGE - DELETE DRILL PROGRAM
+![Delete Program](images/delete_drillprogram.png)
 
 Drillholes can be uploaded to a program in two ways: 
 
 Individually, by selecting 'add':
 
-IMAGE - ADD DRILLHOLE
+![Add Drillhole](images/add_drillhole.png)
 
 Or in bulk by selecting upload:
 
-IMAGE - UPLOAD DRILLHOLES
+![Upload Drillholes](images/upload_drillholes.png)
 
 Uploading file format is .csv and it is advised that users first **download and populate the template provided to avoid running into upload issues**. 
 
@@ -131,10 +131,10 @@ Drillholes can be opened inside a drill program by selecting 'open' beside each 
 This will display details about the hole and provides options to:
 
 Edit a drillhole:
-IMAGE - EDIT DRILLHOLE
+![Edit Drillhole](images/edit_drillhole.png)
 
 Delete:
-IMAGE - DELETE DRILLHOLE
+![Delete Drillhole](images/delete_drillhole.png)
 
 Users should be aware that **deleting a drillhole will cascade and delete all associated logs**
 
@@ -142,25 +142,25 @@ Users should be aware that **deleting a drillhole will cascade and delete all as
 
 Users can access the logging portal from the main portal
 
-IMAGE - MAIN PORTAL
+![Main Portal](images/main_portal.png)
 
 #### Logging portal programs
 
 Upon entering, users will be presented with a list of drill programs.
 
-IMAGE - LOGGING PORTAL PROGRAMS
+![Logging portal programs](images/logging_portal.png)
 
 #### Logging portal drillholes
 
 Users can navigate to the selected drill program and open the desired drillhole for logging, using the searchbar if required
 
-IMAGE - LOG DRILL HOLES 
+![Logging portal holes](images/logging_portal_holes.png)
 
 #### Logging portal logs
 
 Upon entering the desired drillhole for logging users are able to enter logging information using several tabs: Lithology, Alteration, structure and Mineral which can be toggled between whilst retaining information
 
-IMAGE - LOGGING PORTAL
+![Logging portal logs](images/log_overview.png)
 
 Below are the constraints on each table inputs where table codes are controlled by dropdown list and therefore not editable directly:
 
@@ -234,17 +234,17 @@ It should be noted that users should save these individually when satisfied.
 
 Upon save and page reload, an overview tab will appear outlining the contents of each log. Each log can be exported as .csv by selecting the button associated with log if required. 
 
-IMAGE - OVERVIEW PAGE 
+![Logging portal logs](images/log_overview.png)
 
 ### Logout and Change password
 
 It should be noted that users can logout of the application at any time using the logout button from any page
 
-IMAGE - Logout main portal 
+![Main Portal](images/main_portal.png)
 
 Users may choose to change their password in any page aside from the main portal by selecting the option at the top of the hero banner
 
-IMAGE - ANY PAGE WITH CHANGE PASSWORD 
+![Add Program](images/add_drillprogram.png)
 
 ## API Useage 
 
