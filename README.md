@@ -53,11 +53,12 @@ On initial login, password change will be prompted before login. Be aware that p
 At present , users will have access to an area for managing boreholes called 'drilling portal' and an area for logging drillholes called 'logging portal'.
 On login these will be present from the main portal.
 
-![Main Portal](images/main_portal.png)
+![Main Portal](images/main_portal2.png)
 
 ### Drilling portal
 #### Drill Programs
-IMAGE - DRILLING PORTAL
+
+![Drilling Portal](images/drilling_portal.png)
 
 On entering the drilling portal, a blank page will be encountered due to no drill programs yet added. Programs can be added using the 'Add button' and populating the 
 subsequent form. 
@@ -66,11 +67,11 @@ subsequent form.
 
 Be aware that fields have character length constraints as outlined below and in drilltekBackend/api/models.py
 
-```Python
-    programid = models.CharField(primary_key=True,max_length=30)
-    orebody = models.CharField(max_length=10)
-    location = models.CharField(max_length=10)
-    target = models.CharField(max_length=10)
+```
+    programid = Required Character Field, Max Length of 30, Unique
+    orebody = Required Character field, Max Length of 10
+    location = Required Character field, Max Length of 10
+    target = Required Character field, Max Length of 10
 ```
 Drill programs can be opened to view details and edit by selecting open on the desired program
 
@@ -103,25 +104,13 @@ Uploading file format is .csv and it is advised that users first **download and 
 
 Users should be aware of character limits on drillhole fields 
 
-```Python
- xcoord = models.DecimalField(decimal_places=2, max_digits=8)
-    ycoord = models.DecimalField(decimal_places=2, max_digits=8)
-    zcoord = models.DecimalField(decimal_places=2, max_digits=8)
-    dip = models.DecimalField(decimal_places=2, max_digits=4, 
-                              validators=[
-                                  MinValueValidator(-90.00),
-                                  MaxValueValidator(90.00)
-                              ])
-    azimuth = models.DecimalField(decimal_places=2, max_digits=5,
-                                  validators=[
-                                      MinValueValidator(0.01),
-                                      MaxValueValidator(360.00)
-                                  ])
-    length = models.DecimalField(decimal_places=2, max_digits=8, 
-                                 validators=[
-                                     MinValueValidator(1.00),
-                                     MaxValueValidator(100000.00)
-                                 ])
+```
+ xcoord = Required Decimal Field, Max 2 Decimal Places, Max 8 Digits
+ ycoord = Required Decimal Field, Max 2 Decimal Places, Max 8 Digits
+ zcoord = Required Decimal Field, Max 2 Decimal Places, Max 8 Digits
+ dip = Required Decimal Field, Max 2 Decimal Places, Minumum Value -90.00, Maximum Value 90.00
+ azimuth = Required Decimal Field, Max 2 Decimal Places, Minumum Value 0.01, Maximum Value 360.00
+ length = Required Decimal Field, Max 2 Decimal Places, Minumum Value 1.00, Maximum Value 100000.00
 ```
 
 #### Drillhole details
@@ -142,7 +131,7 @@ Users should be aware that **deleting a drillhole will cascade and delete all as
 
 Users can access the logging portal from the main portal
 
-![Main Portal](images/main_portal.png)
+![Main Portal](images/main_portal2.png)
 
 #### Logging portal programs
 
@@ -164,70 +153,39 @@ Upon entering the desired drillhole for logging users are able to enter logging 
 
 Below are the constraints on each table inputs where table codes are controlled by dropdown list and therefore not editable directly:
 
-```Python
+```
 #LITHOLOGY
- start = models.DecimalField(decimal_places=2, max_digits=8,
-                                validators=[
-                                    MaxValueValidator(100000.00)
-                                ])
-    end = models.DecimalField(decimal_places=2, max_digits=8,
-                                validators=[
-                                    MaxValueValidator(100000.00)
-                                ])
-    lithcode = models.CharField(choices=lithcodes)
-    comment = models.CharField(max_length=500 , blank=True)
+ start = Required Decimal Field, Max 2 Decimal Places,Maximum Value 100000.00
+ end = Required Decimal Field, Max 2 Decimal Places,Maximum Value 100000.00
+ lithcode = Required Character Field, Selection From List
+ comment = Optional Character Field, Max Length of 500
 ```
 
-```Python
+```
 #ALTERATION
-start = models.DecimalField(decimal_places=2, max_digits=8,
-                            validators=[
-                                MaxValueValidator(100000.00)
-                            ])
-    end = models.DecimalField(decimal_places=2, max_digits=8,
-                            validators=[
-                                MaxValueValidator(100000.00)
-                            ])
-    alterationcode = models.CharField(choices=alterationcodes)
-    comment = models.CharField(max_length=500, blank=True)
+start = Required Decimal Field, Max 2 Decimal Places,Maximum Value 100000.00
+end = Required Decimal Field, Max 2 Decimal Places,Maximum Value 100000.00
+alterationcode = Required Character Field, Selection From List
+comment = Optional Character Field, Max Length of 500
 ```
 
-```Python
+```
 #STRUCTURE
-start = models.DecimalField(decimal_places=2, max_digits=8,
-                            validators=[
-                                MaxValueValidator(100000.00)
-                            ])
-    end = models.DecimalField(decimal_places=2, max_digits=8,
-                            validators=[
-                                MaxValueValidator(100000.00)
-                            ])
-    structurecode = models.CharField(choices=structurecodes)
-    comment = models.CharField(max_length=500, blank=True)
-    structuretype = models.CharField(max_length=35)
-    dip = models.IntegerField(validators=[
-        MaxValueValidator(90)
-    ])
+start = Required Decimal Field, Max 2 Decimal Places,Maximum Value 100000.00
+end = Required Decimal Field, Max 2 Decimal Places,Maximum Value 100000.00
+structurecode = Required Character Field, Selection From List
+comment = Optional Character Field, Max Length of 500
+dip = Required Integer field, Max Value of 90
 ```
 
-```Python
+```
 #MINERAL
-sampleid = models.CharField(primary_key=True,max_length=10)
-    start = models.DecimalField(decimal_places=2, max_digits=8,
-                            validators=[
-                                MaxValueValidator(100000.00)
-                            ])
-    end = models.DecimalField(decimal_places=2, max_digits=8,
-                            validators=[
-                                MaxValueValidator(100000.00)
-                            ])
-    estimate = models.DecimalField(decimal_places=2, max_digits=5,
-                                   validators=[
-                                       MinValueValidator(0.00),
-                                       MaxValueValidator(100.00)
-                                   ])
-     comment = models.CharField(max_length=500, blank=True)
-     texture = models.CharField(choices=texturechoices)
+sampleid = Required Character Field, Max Length of 10, Unique
+start = Required Decimal Field, Max 2 Decimal Places,Maximum Value 100000.00
+end = Required Decimal Field, Max 2 Decimal Places,Maximum Value 100000.00
+estimate = Required Decimal Field, Max 2 Decimal Places, Minumum Value 0.00, Maximum Value 100.00
+comment = Optional Character Field, Max Length of 500
+texture = Required Character Field, Selection From List
 ```
 
 It should be noted that users should save these individually when satisfied.
@@ -240,7 +198,7 @@ Upon save and page reload, an overview tab will appear outlining the contents of
 
 It should be noted that users can logout of the application at any time using the logout button from any page
 
-![Main Portal](images/main_portal.png)
+![Main Portal](images/main_portal2.png)
 
 Users may choose to change their password in any page aside from the main portal by selecting the option at the top of the hero banner
 
